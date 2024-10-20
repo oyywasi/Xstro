@@ -1,4 +1,4 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter } = require('../lib');
+const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, SudoDB, getSudo, addSudo, getAllSudos, deleteSudo } = require('../lib');
 const { WARN_COUNT } = require('../config');
 
 command(
@@ -128,17 +128,23 @@ command(
  }
 );
 
+function cleanUserId(userId) {
+ return userId.split('@')[0];
+}
+
 command(
  {
   pattern: 'setsudo',
   desc: 'Set Sudo Numbers For the Bot',
   type: 'user',
  },
- async (message, match, m, client) => {
-  if (!message.reply_message?.sender) return message.reply('_Reply Someone_');
-  /**
-   * We use Sqlite3 for the Database of storing the jid as sudo
-   */
+ async (message) => {
+  const sudoId = message.reply_message?.sender || message.mention[0];
+  if (!sudoId) return message.reply('_Reply to someone or mention them_');
+
+  const cleanedId = cleanUserId(sudoId);
+  await addSudo(cleanedId);
+  message.reply(`_User @${cleanedId} has been added as sudo._`, { mentions: [sudoId] });
  }
 );
 
@@ -148,12 +154,12 @@ command(
   desc: 'Get the list of all sudo numbers of the bot',
   type: 'user',
  },
- async (message, match, m, client) => {
-  /**
-   * In here we retrive all the numbers of the sudo, we mention them
-   * for example @2348039607375 by using
-   * message.reply()
-   */
+ async (message) => {
+  const sudoList = await getAllSudos();
+  if (sudoList.length === 0) return message.reply('_No sudo users found._');
+
+  const sudoMentions = sudoList.map((sudo) => `@${sudo.userId}`).join(', ');
+  message.reply(`_Current sudo users:_\n${sudoMentions}`, { mentions: sudoList.map((sudo) => sudo.userId) });
  }
 );
 
@@ -163,10 +169,16 @@ command(
   desc: 'Delete A Sudo',
   type: 'user',
  },
- async (message, match, m, client) => {
-  /**
-   * In here we delete a sudo, by providing the jid or mention them if it's group or still reply them by using message.reply_message.sender
-   * if the number wasn't sudo, we return not sudo, else the replied sudo number delete from the db
-   */
+ async (message) => {
+  const sudoId = message.reply_message?.sender || message?.mention[0];
+  if (!sudoId) return message.reply('_Reply to someone or mention them_');
+
+  const cleanedId = cleanUserId(sudoId); // Clean the user ID before deletion
+  const isDeleted = await deleteSudo(cleanedId);
+  if (isDeleted) {
+   message.reply(`_User @${cleanedId} has been removed from the sudo list._`, { mentions: [sudoId] });
+  } else {
+   message.reply('_This user is not a sudo._');
+  }
  }
 );
