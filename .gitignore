@@ -128,3 +128,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Development & cache files
+database.db
+lib/session
+package-lock.json
+yarn.lock
