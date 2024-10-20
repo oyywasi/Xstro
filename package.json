@@ -12,7 +12,7 @@
  "dependencies": {
   "@ffmpeg-installer/ffmpeg": "^1.1.0",
   "axios": "^1.7.7",
-  "baileys": "^6.7.8",
+  "baileys": "git+https://github.com/AstroX10/Baileys.git",
   "dotenv": "^16.4.5",
   "file-type": "^16.5.3",
   "fluent-ffmpeg": "^2.1.3",
