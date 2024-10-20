@@ -155,47 +155,113 @@ command(
 
 command(
  {
+  pattern: 'gname',
+  desc: 'Change group name',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  if (!match) return await message.reply('_Provide a name to change the group name_');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  await client.groupUpdateSubject(message.jid, match);
+  return await message.reply(`_Group name changed to: ${match}_`);
+ }
+);
+
+command(
+ {
+  pattern: 'gdesc',
+  desc: 'Change group description',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  if (!match) return await message.reply('_Provide a description to change the group description_');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  await client.groupUpdateDescription(message.jid, match);
+  return await message.reply('_Group description updated_');
+ }
+);
+
+command(
+ {
   pattern: 'requests',
-  desc: 'Get Join Requests',
+  desc: 'Show pending join requests',
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_This command is for groups_');
-  if (!(await isAdmin(message.jid, message.user, client))) return message.reply("_I'm not admin_");
-  const { pendingParticipants } = await client.groupMetadata(message.jid);
-  if (pendingParticipants.length === 0) return message.reply('_No join requests currently_');
-  const response = '_Join Requests:_\n' + pendingParticipants.map((p) => `- ${p.id}`).join('\n');
-  return await message.reply(response);
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  const requests = await client.groupRequestParticipantsList(message.jid);
+  if (requests.length === 0) return await message.reply('_No pending join requests_');
+  let requestList = 'Pending Join Requests:\n';
+  requests.forEach((request, index) => {
+   requestList += `${index + 1}. @${request.jid.split('@')[0]}\n`;
+  });
+  return await message.reply(requestList, { mentions: requests.map((r) => r.jid) });
  }
 );
 
 command(
  {
-  pattern: 'accept ?(.*)',
-  desc: 'Accept Join Request',
+  pattern: 'accept',
+  desc: 'Accept join request',
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_This command is for groups_');
-  if (!(await isAdmin(message.jid, message.user, client))) return message.reply("_I'm not admin_");
-  const userId = match[1] + '@s.whatsapp.net';
-  await client.groupParticipantsUpdate(message.jid, [userId], 'add');
-  return await message.reply(`_${userId} has been accepted._`);
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  if (!match) return await message.reply('_Provide the number or @tag of the request to accept_');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  const jid = parsedJid(match)[0];
+  await client.groupRequestParticipantsUpdate(message.jid, [jid], 'approve');
+  return await message.reply(`_Join request for @${jid.split('@')[0]} accepted_`, { mentions: [jid] });
  }
 );
 
 command(
  {
-  pattern: 'reject ?(.*)',
-  desc: 'Reject Join Request',
+  pattern: 'reject',
+  desc: 'Reject join request',
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_This command is for groups_');
-  if (!(await isAdmin(message.jid, message.user, client))) return message.reply("_I'm not admin_");
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  if (!match) return await message.reply('_Provide the number or @tag of the request to reject_');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  const jid = parsedJid(match)[0];
+  await client.groupRequestParticipantsUpdate(message.jid, [jid], 'reject');
+  return await message.reply(`_Join request for @${jid.split('@')[0]} rejected_`, { mentions: [jid] });
+ }
+);
 
-  const userId = match[1] + '@s.whatsapp.net';
-  await client.groupParticipantsUpdate(message.jid, [userId], 'remove');
-  return await message.reply(`_${userId} has been rejected._`);
+command(
+ {
+  pattern: 'newgc',
+  desc: 'Create a new group',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!match) return await message.reply('_Provide a name for the new group_');
+  const participants = message.mentionedJid ? message.mentionedJid : [message.user];
+  const group = await client.groupCreate(match, participants);
+  return await message.reply(`_New group "${match}" created with ID: ${group.id}_`);
+ }
+);
+
+command(
+ {
+  pattern: 'leave',
+  desc: 'Leave the group',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.isGroup) return await message.reply('_This command is for groups_');
+  await message.reply('_Leaving the group. Goodbye!_');
+  return await client.groupLeave(message.jid);
  }
 );
