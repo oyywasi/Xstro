@@ -185,15 +185,32 @@ command(
 
 command(
  {
-  pattern: 'test',
-  desc: 'Delete A Sudo',
+  pattern: 'ban',
+  desc: 'Bans A User from using the bot',
   type: 'user',
  },
- async (message) => {
-  if (!message.sudo) {
-   return message.reply('not sudo');
-  } else {
-   return message.reply('is sudo');
-  }
+ async (message, match, m, client) => {
+  /** Here we implement our ban logic **/
  }
 );
+
+command(
+ {
+  pattern: 'unban', 
+  desc: 'Unbans A Banned User',
+  type: 'user', 
+ }, 
+ async (message, match, m, client) => {
+  /** Implement our unban logic **/
+ }
+)
+
+command(
+ {
+  pattern: 'getban', 
+  desc: 'Returns list of banned users', 
+  type: 'user', 
+ },  
+ async (message, match, m, client) =>{
+  /** Implement our banlist logic **/
+})
