@@ -247,9 +247,10 @@ command(
  },
  async (message, match, m, client) => {
   if (!match) return await message.reply('_Provide a name for the new group_');
-  const participants = message.mentionedJid ? message.mentionedJid : [message.user];
+  const participants = message.mention && message.mention.length > 0 ? message.mention : message.reply_message ? [message.reply_message.sender] : [message.user];
   const group = await client.groupCreate(match, participants);
-  return await message.reply(`_New group "${match}" created with ID: ${group.id}_`);
+  await message.reply(`_New group "${match}" created_`);
+  return await client.sendMessage(group.id, { text: `_New Group ${match} Created_` });
  }
 );
 
