@@ -157,9 +157,9 @@ command(
  async (message) => {
   const sudoList = await getAllSudos();
   if (sudoList.length === 0) return message.reply('_No sudo users found._');
-
   const sudoMentions = sudoList.map((sudo) => `@${sudo.userId}`).join(', ');
-  message.reply(`_Current sudo users:_\n${sudoMentions}`, { mentions: sudoList.map((sudo) => sudo.userId) });
+  const mentions = sudoList.map((sudo) => `${sudo.userId}@s.whatsapp.net`);
+  message.reply(`_Current sudo users:_\n${sudoMentions}`, { mentions });
  }
 );
 
@@ -179,6 +179,21 @@ command(
    message.reply(`_User @${cleanedId} has been removed from the sudo list._`, { mentions: [sudoId] });
   } else {
    message.reply('_This user is not a sudo._');
+  }
+ }
+);
+
+command(
+ {
+  pattern: 'test',
+  desc: 'Delete A Sudo',
+  type: 'user',
+ },
+ async (message) => {
+  if (!message.sudo) {
+   return message.reply('not sudo');
+  } else {
+   return message.reply('is sudo');
   }
  }
 );
