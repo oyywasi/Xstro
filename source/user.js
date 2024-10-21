@@ -1,6 +1,6 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, runtime } = require('../lib');
+const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, getAutoReactSettings, setAutoReactSettings } = require('../lib');
 
-const { getRandomFact, getRandomQuote } = require('../lib');
+const { runtime, getRandomFact, getRandomQuote, emojis } = require('../lib');
 const { WARN_COUNT, BOT_INFO } = require('../config');
 
 command(
@@ -290,6 +290,45 @@ command(
     .replace(/&quotes/g, `${getRandomQuote()}\n`);
 
    await message.send(processedMessage);
+  }
+ }
+);
+
+command(
+ {
+  pattern: 'autoreact ?(.*)',
+  desc: 'Set auto-react on/off and choose emojis',
+  type: 'user',
+ },
+ async (message, match, m, client) => {
+  if (!match) return message.reply('_Provide Vaild Option, ON | OFF_');
+  const args = match.trim().split(/\s+/);
+  const command = args[0]?.toLowerCase();
+
+  if (!command) {
+   const settings = await getAutoReactSettings(message.jid);
+   return message.reply(`*_Auto-react is currently ${settings.isEnabled ? 'ON' : 'OFF'}._*`);
+  }
+  if (command === 'on' || command === 'off') {
+   const isEnabled = command === 'on';
+   return message.reply(`*_AutoReact Set ${isEnabled ? 'ON' : 'OFF'}._*`);
+  }
+  return message.reply('Usage: .autoreact on/off [emoji1,emoji2,...]');
+ }
+);
+
+command(
+ {
+  on: 'text',
+  fromMe: false,
+  dontAddCommandList: true,
+ },
+ async (message, match, m) => {
+  const settings = await getAutoReactSettings(message.jid);
+
+  if (settings.isEnabled && emojis.length > 0) {
+   const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+   await message.react(randomEmoji);
   }
  }
 );
