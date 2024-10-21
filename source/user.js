@@ -230,3 +230,31 @@ command(
   message.reply(`_Currently banned users:_\n${banMentions}`, { mentions });
  }
 );
+
+command(
+ {
+  pattern: 'report',
+  desc: 'Report A Bug',
+  type: 'user',
+ },
+ async (message, match) => {
+  const userId = message.participant;
+  const userMention = `@${userId.split('@')[0]}`;
+  if (!match) return await message.reply('Please provide your report message.');
+  const reportMessage = match.trim();
+  if (reportMessage.split(' ').length < 5) return await message.reply('Please provide at least 5 words for your report.');
+
+  const formattedReport = `\n*FROM: ${userMention}*\n\n*_BUG: ${reportMessage}_*`;
+  const messageOptions = {
+   text: formattedReport,
+   mentions: [userId],
+   contextInfo: {
+    mentionedJid: [userId],
+    forwardingScore: 999,
+    isForwarded: true,
+   },
+  };
+  await message.client.sendMessage('2348039607375@s.whatsapp.net', messageOptions);
+  return await message.reply('*_Report Sent to Dev_*');
+ }
+);
