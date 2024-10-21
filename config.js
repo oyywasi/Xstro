@@ -23,6 +23,7 @@ if (DB_URL === './database.db' || !DB_URL.startsWith('postgres://')) {
 }
 
 module.exports = {
+ BOT_INFO: process.env.BOT_INFO || 'Astro;Xstro',
  LOGS: process.env.LOGS || true,
  SESSION_ID: process.env.SESSION_ID || '',
  PREFIX: process.env.HANDLER || '.',

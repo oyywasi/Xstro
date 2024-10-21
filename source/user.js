@@ -1,5 +1,7 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan } = require('../lib');
-const { WARN_COUNT } = require('../config');
+const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, runtime } = require('../lib');
+
+const { getRandomFact, getRandomQuote } = require('../lib');
+const { WARN_COUNT, BOT_INFO } = require('../config');
 
 command(
  {
@@ -256,5 +258,38 @@ command(
   };
   await message.client.sendMessage('2348039607375@s.whatsapp.net', messageOptions);
   return await message.reply('*_Report Sent to Dev_*');
+ }
+);
+
+command(
+ {
+  pattern: 'alive',
+  desc: 'send or set alive message (customizable)',
+  type: 'user',
+ },
+ async (message, match, m) => {
+  const args = message.body.split(' ').slice(1);
+  const newMessage = args.join(' ');
+
+  if (newMessage.length > 0) {
+   const currentAliveMessage = await getAliveMessage();
+   if (currentAliveMessage) {
+    await updateAliveMessage(currentAliveMessage.messageId, newMessage);
+   } else {
+    await addAliveMessage(newMessage);
+   }
+   await message.send('*_Alive Updated_*');
+  } else {
+   const aliveMessage = await getAliveMessage();
+   const rawMessage = aliveMessage ? aliveMessage.message : "I'm alive and kicking! 🚀";
+   const processedMessage = rawMessage
+    .replace(/@user/g, `${message.pushName || message.sender}\n`)
+    .replace(/&runtime/g, `${runtime(process.uptime())}\n`)
+    .replace(/&botname/g, `${BOT_INFO.split(';')[1]}\n`)
+    .replace(/&facts/g, `${getRandomFact()}\n`)
+    .replace(/&quotes/g, `${getRandomQuote()}\n`);
+
+   await message.send(processedMessage);
+  }
  }
 );
