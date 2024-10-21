@@ -1,4 +1,4 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, SudoDB, getSudo, addSudo, getAllSudos, deleteSudo } = require('../lib');
+const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan } = require('../lib');
 const { WARN_COUNT } = require('../config');
 
 command(
@@ -39,7 +39,7 @@ command(
   type: 'user',
  },
  async (message, match) => {
-  const userId = message.mention[0] || message.reply_message.jid;
+  const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   let reason = message?.reply_message.text || match;
   reason = reason.replace(/@(\d+)/, '');
@@ -63,7 +63,7 @@ command(
   type: 'user',
  },
  async (message) => {
-  const userId = message.mention[0] || message.reply_message.jid;
+  const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   await resetWarn(userId);
   message.reply(`_@${userId.split('@')[0]} is free as a cow_`, { mentions: [userId] });
@@ -172,8 +172,7 @@ command(
  async (message) => {
   const sudoId = message.reply_message?.sender || message?.mention[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them_');
-
-  const cleanedId = cleanUserId(sudoId); // Clean the user ID before deletion
+  const cleanedId = cleanUserId(sudoId);
   const isDeleted = await deleteSudo(cleanedId);
   if (isDeleted) {
    message.reply(`_User @${cleanedId} has been removed from the sudo list._`, { mentions: [sudoId] });
@@ -186,31 +185,48 @@ command(
 command(
  {
   pattern: 'ban',
-  desc: 'Bans A User from using the bot',
+  desc: 'Bans a user from using the bot',
   type: 'user',
  },
- async (message, match, m, client) => {
-  /** Here we implement our ban logic **/
+ async (message) => {
+  const userId = message.mention[0] || message.reply_message?.sender;
+  if (!userId) return message.reply('_Mention or reply to someone_');
+  const existingBan = await getBan(userId);
+  if (existingBan) return message.reply('_This user is already banned._');
+  await banUser(userId);
+  message.reply(`_User @${userId.split('@')[0]} has been banned from using the bot._`, { mentions: [userId] });
  }
 );
 
 command(
  {
-  pattern: 'unban', 
-  desc: 'Unbans A Banned User',
-  type: 'user', 
- }, 
- async (message, match, m, client) => {
-  /** Implement our unban logic **/
+  pattern: 'unban',
+  desc: 'Unbans a user',
+  type: 'user',
+ },
+ async (message) => {
+  const userId = message.mention[0] || message.reply_message?.sender;
+  if (!userId) return message.reply('_Mention or reply to someone_');
+  const banRemoved = await unbanUser(userId);
+  if (banRemoved) {
+   message.reply(`_User @${userId.split('@')[0]} has been unbanned._`, { mentions: [userId] });
+  } else {
+   message.reply('_This user was not banned._');
+  }
  }
-)
+);
 
 command(
  {
-  pattern: 'getban', 
-  desc: 'Returns list of banned users', 
-  type: 'user', 
- },  
- async (message, match, m, client) =>{
-  /** Implement our banlist logic **/
-})
+  pattern: 'getban',
+  desc: 'Returns a list of banned users',
+  type: 'user',
+ },
+ async (message) => {
+  const bannedUsers = await getBannedUsers();
+  if (bannedUsers.length === 0) return message.reply('_No users are currently banned._');
+  const banMentions = bannedUsers.map((user) => `@${user.userId.split('@')[0]}`).join(', ');
+  const mentions = bannedUsers.map((user) => `${user.userId}`);
+  message.reply(`_Currently banned users:_\n${banMentions}`, { mentions });
+ }
+);
