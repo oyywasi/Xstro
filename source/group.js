@@ -32,8 +32,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to kick_');
+  match = match || message.reply_message.sender;
   const isadmin = await isAdmin(message.jid, message.user, client);
   if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
