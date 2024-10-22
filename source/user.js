@@ -1,4 +1,4 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, getAutoReactSettings, getMentionMessage, updateMentionMessage, addMentionMessage,setAutoReactSettings } = require('../lib');
+const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, getAutoReactSettings, getMentionMessage, updateMentionMessage, addMentionMessage, setAutoReactSettings } = require('../lib');
 
 const { runtime, getRandomFact, getRandomQuote } = require('../lib');
 const { WARN_COUNT, BOT_INFO } = require('../config');
@@ -10,6 +10,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const chatId = message.key.remoteJid;
   await savePausedChat(chatId);
   message.reply('_Bot paused for this Chat_');
@@ -23,6 +26,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const chatId = message.key.remoteJid;
   const pausedChat = await PausedChats.findOne({ where: { chatId } });
   if (pausedChat) {
@@ -41,6 +47,9 @@ command(
   type: 'user',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   let reason = message?.reply_message.text || match;
@@ -65,6 +74,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   await resetWarn(userId);
@@ -79,6 +91,9 @@ command(
   type: 'user',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   let text, msg;
 
   if (!match) {
@@ -105,6 +120,9 @@ command(
   type: 'user',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('\n*Example:* ```.stop hello```');
   const deleted = await deleteFilter(message.jid, match);
   if (deleted) {
@@ -141,6 +159,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const sudoId = message.reply_message?.sender || message.mention[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them_');
 
@@ -157,6 +178,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const sudoList = await getAllSudos();
   if (sudoList.length === 0) return message.reply('_No sudo users found._');
   const sudoMentions = sudoList.map((sudo) => `@${sudo.userId}`).join(', ');
@@ -172,6 +196,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const sudoId = message.reply_message?.sender || message?.mention[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them_');
   const cleanedId = cleanUserId(sudoId);
@@ -191,6 +218,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   const existingBan = await getBan(userId);
@@ -207,6 +237,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
   const banRemoved = await unbanUser(userId);
@@ -225,6 +258,9 @@ command(
   type: 'user',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const bannedUsers = await getBannedUsers();
   if (bannedUsers.length === 0) return message.reply('_No users are currently banned._');
   const banMentions = bannedUsers.map((user) => `@${user.userId.split('@')[0]}`).join(', ');
@@ -240,6 +276,9 @@ command(
   type: 'user',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const userId = message.participant;
   const userMention = `@${userId.split('@')[0]}`;
   if (!match) return await message.reply('Please provide your report message.');
@@ -268,6 +307,9 @@ command(
   type: 'user',
  },
  async (message, match, m) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const args = message.body.split(' ').slice(1);
   const newMessage = args.join(' ');
 
@@ -302,6 +344,9 @@ command(
   type: 'user',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const args = match.trim().split(/\s+/);
   const command = args[0]?.toLowerCase();
 
@@ -345,6 +390,9 @@ command(
   type: 'user',
  },
  async (message, match, m) => {
+  if (!message.mode) return;
+  if (!message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const args = message.text.split(' ').slice(1);
   const newMessage = args.join(' ');
   if (newMessage.length > 0) {
