@@ -7,10 +7,13 @@ const { tiny } = require('xstro');
 command(
  {
   pattern: 'ping',
+  alias: 'speed',
   desc: 'To check ping',
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const msg = await message.reply('ᴄʜᴇᴄᴋɪɴɢ...');
   const updateInterval = 1000;
 
@@ -27,10 +30,13 @@ command(
 command(
  {
   pattern: 'restart',
+  alias: 'reboot',
   desc: 'Restart System',
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await message.reply('Restarting the bot...');
   const filePath = path.resolve(__dirname, '..', 'index.js');
   spawn(process.execPath, [filePath], {
@@ -48,6 +54,8 @@ command(
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await message.reply('Shutting down the bot...');
   process.exit();
  }
@@ -60,6 +68,8 @@ command(
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const cpus = os.cpus();
   const coreCount = cpus.length;
   const model = cpus[0].model;
@@ -80,6 +90,8 @@ command(
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const interfaces = os.networkInterfaces();
   const interfaceDetails = Object.keys(interfaces)
    .map((iface) => {
@@ -99,6 +111,8 @@ command(
   type: 'system',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const uptime = await runtime(process.uptime());
   return await message.send(tiny(`Running Since ${uptime}`));
  }

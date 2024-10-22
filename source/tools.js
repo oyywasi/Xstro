@@ -9,7 +9,9 @@ command(
   type: 'tools',
  },
  async (message) => {
-  const tempPath = path.join(__dirname, '..', 'temp');
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  const tempPath = path.join(__dirname, '..', 'lib', 'temp');
   const clearFiles = (folderPath) => fs.readdirSync(folderPath).forEach((file) => fs.unlinkSync(path.join(folderPath, file)));
   clearFiles(tempPath);
   return await message.reply('_Cache Cleared_');

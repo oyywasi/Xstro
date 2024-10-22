@@ -7,9 +7,9 @@ command(
   type: 'whatsapp',
  },
  async (message) => {
-  if (!message.reply_message.isViewOnce) return message.reply('_Reply A ViewOnce Message!_');
-  const content = await message.download(message.reply_message.messageInfo.viewOnceMessage.message);
-  await message.send(content.buffer, { jid: message.user });
+  if (!message.reply_message.viewonce) return message.reply('_Reply A ViewOnce Message!_');
+  const content = await message.download(message.reply_message.data);
+  await message.send(content.buffer, { jid: message.participant });
   return message.reply('_Saved, Check your Dm Sir_');
  }
 );

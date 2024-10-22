@@ -4,12 +4,13 @@ const { command, commands, runtime } = require('../lib');
 command(
  {
   pattern: 'menu',
+  alias: 'help',
   description: 'Show All Commands',
   dontAddCommandList: true,
  },
  async (message) => {
+  if (!message.mode) return;
   if (message.isban) return message.reply(ban);
-  if (message.mode) return;
   const { prefix, sender } = message;
   const currentTime = new Date().toLocaleTimeString('en-IN', {
    timeZone: process.env.TZ,
@@ -56,8 +57,8 @@ command(
   dontAddCommandList: true,
  },
  async (message) => {
+  if (!message.mode) return;
   if (message.isban) return message.reply(ban);
-  if (message.mode) return;
   let commandListText = '*about commands*\n';
   const commandList = [];
   commands.forEach((command) => {
