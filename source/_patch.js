@@ -7,7 +7,9 @@ command(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (!message?.owner) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('>')) return;
@@ -46,7 +48,9 @@ command(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (!message?.owner) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('$')) return;

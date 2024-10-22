@@ -7,7 +7,10 @@ command(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_For groups only!_');
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antilink on_\n_' + message.prefix + 'antilink kick_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
   if (!isUserAdmin) return message.reply("_I'm not an admin._");
@@ -34,7 +37,6 @@ command(
  },
  async (message, match, m, client) => {
   if (!message.isGroup) return;
-
   const settings = await getAntiLink(message.jid);
   if (!settings) return;
   const isUserAdmin = await isAdmin(message.jid, message.participant, client);
@@ -59,7 +61,10 @@ command(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_For groups only!_');
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong usage, try ' + message.prefix + 'antiword on_');
 
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
@@ -155,7 +160,10 @@ command(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.isGroup) return message.reply('_For groups only!_');
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antispam on | off | kick | warn_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
   if (!isUserAdmin) return message.reply("_I'm not an admin._");
@@ -244,5 +252,3 @@ command(
   }
  }
 );
-
-setInterval(cleanupOldMessages, 5 * 60 * 1000);
