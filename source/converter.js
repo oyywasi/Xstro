@@ -71,18 +71,3 @@ command(
   return message.send(res.buffer, { type: 'audio' });
  }
 );
-
-command(
- {
-  pattern: 'tovideo',
-  desc: 'Converts Sticker to Video',
-  type: 'converter',
- },
- async (message) => {
-  if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
-  if (!message.reply_message?.sticker) return await message.reply('_Reply A Sticker_');
-  const mp4 = await message.download(message.reply_message.data);
-  return await message.send(mp4.buffer, { type: 'video' });
- }
-);
