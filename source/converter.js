@@ -8,6 +8,8 @@ command(
   type: 'converter',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const hasMedia = message.reply_message?.image || message.reply_message?.video;
   if (!hasMedia) return message.reply('_Reply an Image/Video_');
   const content = await message.download(message.reply_message.data);
@@ -26,6 +28,8 @@ command(
   type: 'converter',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const isStickerMedia = message.reply_message?.sticker;
   if (!isStickerMedia) return message.reply('_Reply A Sticker!_');
   const newSticker = await message.download(message.reply_message.data);
@@ -44,6 +48,8 @@ command(
   type: 'converter',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   const res = message.reply_message?.video;
   if (!res) return message.reply('_Reply to a Sticker_');
   const contentBuffer = await message.download(message.reply_message.data);
@@ -58,6 +64,8 @@ command(
   type: 'converter',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.video) return message.reply('_Reply Video Only!_');
   const res = await message.download(message.reply_message.data);
   return message.send(res.buffer, { type: 'audio' });
@@ -71,6 +79,8 @@ command(
   type: 'converter',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.sticker) return await message.reply('_Reply A Sticker_');
   const mp4 = await message.download(message.reply_message.data);
   return await message.send(mp4.buffer, { type: 'video' });
