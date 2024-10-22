@@ -34,7 +34,7 @@ module.exports = {
  AUTO_READ_MESSAGE: process.env.AUTO_READ || false,
  AUTO_STATUS_READ: process.env.AUTO_STATUS_READ || false,
  PRESENCE_UPDATE: process.env.PRESENCE_UPDATE || 'available',
- WORK_TYPE: process.env.WORK_TYPE || 'private',
+ MODE: process.env.MODE || 'private',
  DATABASE_URL: DB_URL,
  DATABASE: sequelize,
 };
