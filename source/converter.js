@@ -43,7 +43,7 @@ command(
 
 command(
  {
-  pattern: 'image',
+  pattern: 'img',
   desc: 'Converts Sticker/Video to Images',
   type: 'converter',
  },
@@ -59,7 +59,7 @@ command(
 
 command(
  {
-  pattern: 'tomp3',
+  pattern: 'mp3',
   desc: 'Converts Video to Mp3 Audio',
   type: 'converter',
  },
