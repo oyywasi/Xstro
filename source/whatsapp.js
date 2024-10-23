@@ -7,10 +7,16 @@ command(
   type: 'whatsapp',
  },
  async (message) => {
-  if (!message.reply_message.viewonce) return message.reply('_Reply A ViewOnce Message!_');
-  const content = await message.download(message.reply_message.data);
-  await message.send(content.buffer, { jid: message.participant });
-  return message.reply('_Saved, Check your Dm Sir_');
+  try {
+   if (!message.mode) return;
+   if (!message.owner) return message.reply(owner);
+   if (!message.reply_message) return message.reply('_Reply A ViewOnce Message!_');
+   const content = await message.download(message.reply_message.data);
+   await message.send(content.buffer, { jid: message.participant });
+   return message.reply('_Saved, Check your Dm Sir_');
+  } catch {
+   return message.reply('_Not A ViewOnce Sir_');
+  }
  }
 );
 
@@ -21,6 +27,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   let imgpath = await message.download(message.reply_message.messageInfo);
   return await client.updateProfilePicture(message.user, { url: imgpath.filePath });
@@ -34,6 +42,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Provide Name!_');
   const newName = match;
   await client.updateProfileName(newName);
@@ -48,6 +58,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   let jid;
   if (message.isGroup) {
    jid = message.mention && message.mention.length > 0 ? message.mention[0] : message.reply_message ? message.reply_message.jid : null;
@@ -69,6 +81,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   let jid;
   if (message.isGroup) {
    jid = message.mention && message.mention.length > 0 ? message.mention[0] : message.reply_message ? message.reply_message.jid : null;
@@ -90,6 +104,9 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
   const targetJid = message.reply_message?.jid || message.jid || message.mention[0];
   return await message.send(targetJid);
  }
@@ -102,6 +119,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!message.reply_message) return message.reply('_Reply Msg_');
   await client.sendMessage(message.jid, { delete: message.reply_message.key || m.quoted.key });
  }
@@ -114,6 +133,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!message.reply_message) return await message.reply('_Please reply to a message._');
   const newText = match;
   return await client.sendMessage(message.jid, { text: newText, edit: m.quoted.key });
@@ -127,6 +148,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!message.reply_message) return await message.reply('*Reply to a message*');
   let key = message.reply_message.key;
   let msg = await loadMessage(key.id);
@@ -144,6 +167,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   await client.chatModify(
    {
     delete: true,
@@ -167,6 +192,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   const lstMsg = {
    message: message.message,
    key: message.key,
@@ -190,6 +217,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   const lstMsg = {
    message: message.message,
    key: message.key,
@@ -213,6 +242,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   await client.chatModify(
    {
     pin: true,
@@ -230,6 +261,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   await client.chatModify(
    {
     pin: false,
@@ -247,6 +280,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!m.quoted) return await message.reply('Reply to a message to forward');
   const jids = parsedJid(match);
   for (const jid of jids) {
@@ -271,6 +306,8 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!message.reply_message?.image && !message.reply_message.video && !message.reply_message.audio) return await message.reply('_Reply to a status message with media_');
   const relayOptions = {
    messageId: m.quoted.key.id,
