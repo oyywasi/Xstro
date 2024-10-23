@@ -46,7 +46,7 @@ command(
   Object.keys(categorized).forEach((category) => {
    menuText += `\n╭── *${category}* ────\n│ ${categorized[category].join('\n│ ')}\n╰──────────────\n`;
   });
-  return await message.send('https://img.freepik.com/free-photo/astronaut-diving-ocean_23-2151549771.jpg', { caption: tiny(menuText) });
+  return await message.send(tiny(menuText));
  }
 );
 
@@ -76,6 +76,6 @@ command(
    commandListText += `\`\`\`${index + 1} ${name.trim()}\`\`\`\n`;
    commandListText += `Use: \`\`\`${description}\`\`\`\n\n`;
   });
-  return await message.send(tiny(commandListText));
+  return await message.reply(tiny(commandListText));
  }
 );

@@ -26,6 +26,7 @@ command(
 command(
  {
   on: 'text',
+  dontAddCommandList: true,
  },
  async (message) => {
   const chatId = message.jid;
@@ -77,6 +78,7 @@ command(
 command(
  {
   on: 'text',
+  dontAddCommandList: true,
  },
  async (message) => {
   const chatId = message.chat;
@@ -132,6 +134,7 @@ command(
 command(
  {
   on: 'text',
+  dontAddCommandList: true,
  },
  async (message) => {
   const chatId = message.chat;
