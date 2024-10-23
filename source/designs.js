@@ -1,6 +1,6 @@
 const { command } = require('../lib');
 
-const { heartDesign, weatherDesign, gemDesign, treeDesign, musicDesign, sportDesign, toolDesign, holidayDesign, dessertDesign, travelDesign, spaceDesign, fashionDesign, beverageDesign, instrumentDesign, gameDesign, emojiArtDesign, partyDesign, holidaySeasonDesign, fitnessDesign, technologyDesign, animalEmojiDesign, kissDesign, hugDesign, slapDesign } = require('../lib/misc/designs');
+const { heartDesign, weatherDesign, gemDesign, treeDesign, musicDesign, sportDesign, toolDesign, holidayDesign, dessertDesign, travelDesign, spaceDesign, fashionDesign, beverageDesign, instrumentDesign, gameDesign, emojiArtDesign, partyDesign, holidaySeasonDesign, fitnessDesign, technologyDesign, animalEmojiDesign, kissDesign, hugDesign, slapDesign, callConversation } = require('../lib/misc/designs');
 
 command(
  {
@@ -236,6 +236,7 @@ command(
  {
   pattern: 'kiss',
   desc: 'Kiss Designs',
+  type: 'designs',
  },
  async (message) => {
   await kissDesign(message);
@@ -246,6 +247,7 @@ command(
  {
   pattern: 'hug',
   desc: 'Hug Designs',
+  type: 'designs',
  },
  async (message) => {
   await hugDesign(message);
@@ -256,8 +258,20 @@ command(
  {
   pattern: 'slap',
   desc: 'Slap Designs',
+  type: 'designs',
  },
  async (message) => {
   await slapDesign(message);
+ }
+);
+
+command(
+ {
+  pattern: 'call',
+  desc: 'Initiate a call conversation',
+  type: 'designs',
+ },
+ async (message) => {
+  await callConversation(message);
  }
 );

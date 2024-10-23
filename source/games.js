@@ -1,6 +1,5 @@
 const { command } = require('../lib');
 const { TicTacToe, WordChainGame, TriviaGame, RiddleGame } = require('../lib/misc');
-const { callConversation } = require('../lib/misc/designs');
 
 const wcg = new WordChainGame();
 const ttt = new TicTacToe();
@@ -234,13 +233,3 @@ command(
   await riddleGame.checkAnswer(chatId, userId, message.text);
  }
 );
-
-command(
-  {
-   pattern: 'call',
-   desc: 'Initiate a call conversation',
-  },
-  async (message) => {
-   await callConversation(message);
-  }
- );
