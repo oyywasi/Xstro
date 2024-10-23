@@ -1,5 +1,6 @@
 const { command } = require('../lib');
 const { STICKER_PACK } = require('../config');
+const { fancy } = require('xstro');
 
 command(
  {
@@ -69,5 +70,22 @@ command(
   if (!message.reply_message?.video) return message.reply('_Reply Video Only!_');
   const res = await message.download(message.reply_message.data);
   return message.send(res.buffer, { type: 'audio' });
+ }
+);
+
+command(
+ {
+  pattern: 'fancy',
+  alias: 'styly',
+  desc: 'Convert Normal text to fancy',
+  type: 'converter',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  match = match || message.reply_message?.text;
+  if (!match) return message.reply('_Provide text or reply text message!_');
+  const res = await fancy(match);
+  return message.reply(res);
  }
 );

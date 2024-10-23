@@ -9,6 +9,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await heartDesign(message);
  }
 );
@@ -19,6 +21,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await weatherDesign(message);
  }
 );
@@ -30,6 +34,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await gemDesign(message);
  }
 );
@@ -41,6 +47,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await treeDesign(message);
  }
 );
@@ -52,6 +60,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await musicDesign(message);
  }
 );
@@ -63,6 +73,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await sportDesign(message);
  }
 );
@@ -74,6 +86,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await toolDesign(message);
  }
 );
@@ -85,6 +99,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await holidayDesign(message);
  }
 );
@@ -96,6 +112,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await dessertDesign(message);
  }
 );
@@ -107,6 +125,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await travelDesign(message);
  }
 );
@@ -118,6 +138,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await spaceDesign(message);
  }
 );
@@ -129,6 +151,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await fashionDesign(message);
  }
 );
@@ -140,6 +164,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await beverageDesign(message);
  }
 );
@@ -151,6 +177,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await instrumentDesign(message);
  }
 );
@@ -162,6 +190,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await gameDesign(message);
  }
 );
@@ -173,6 +203,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await emojiArtDesign(message);
  }
 );
@@ -184,6 +216,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await partyDesign(message);
  }
 );
@@ -195,6 +229,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await holidaySeasonDesign(message);
  }
 );
@@ -206,6 +242,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await fitnessDesign(message);
  }
 );
@@ -217,6 +255,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await technologyDesign(message);
  }
 );
@@ -228,6 +268,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await animalEmojiDesign(message);
  }
 );
@@ -239,6 +281,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await kissDesign(message);
  }
 );
@@ -250,6 +294,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await hugDesign(message);
  }
 );
@@ -261,6 +307,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await slapDesign(message);
  }
 );
@@ -272,6 +320,8 @@ command(
   type: 'designs',
  },
  async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   await callConversation(message);
  }
 );
