@@ -1,9 +1,11 @@
 const { command } = require('../lib');
-const { TicTacToe, WordChainGame, TriviaGame } = require('../lib/misc');
+const { TicTacToe, WordChainGame, TriviaGame, RiddleGame } = require('../lib/misc');
+const { callConversation } = require('../lib/misc/designs');
 
 const wcg = new WordChainGame();
 const ttt = new TicTacToe();
 const triviaGame = new TriviaGame();
+const riddleGame = new RiddleGame();
 
 command(
  {
@@ -170,3 +172,75 @@ command(
   }
  }
 );
+
+command(
+ {
+  pattern: 'riddle ?(.*)',
+  desc: 'Play Riddle Game (start/end/score)',
+  type: 'games',
+ },
+ async (message, match) => {
+  const chatId = message.chat;
+  const userId = message.sender;
+  if (!match) return message.reply('Usage:\nriddle - Start new game\nriddle end - End current game\nriddle score - Check your score\nriddle leaderboard - View top scores');
+  const command = match.toLowerCase();
+
+  riddleGame.setBot({
+   sendMessage: async (chatId, text) => {
+    await message.reply(text);
+   },
+  });
+
+  switch (command) {
+   case 'start':
+   case '':
+    const response = riddleGame.startGame(chatId);
+    await message.reply(response);
+    break;
+
+   case 'end':
+    const endResult = riddleGame.endGame(chatId);
+    await message.reply(endResult);
+    break;
+
+   case 'score':
+    const userScore = riddleGame.getScore(userId);
+    const streak = riddleGame.streaks.get(chatId) || 0;
+    await message.reply(`Your total score: ${userScore} points\n🔥 Current Streak: ${streak}`);
+    break;
+
+   case 'leaderboard':
+    const leaderboard = riddleGame
+     .getLeaderboard()
+     .map(([user, score], index) => `${index + 1}. ${user}: ${score} points`)
+     .join('\n');
+    await message.reply(`🏆 *Riddle Game Leaderboard*\n\n${leaderboard || 'No scores yet!'}`);
+    break;
+
+   default:
+    await message.reply('Usage:\nriddle - Start new game\nriddle end - End current game\nriddle score - Check your score\nriddle leaderboard - View top scores');
+  }
+ }
+);
+
+command(
+ {
+  on: 'text',
+ },
+ async (message) => {
+  const chatId = message.chat;
+  const userId = message.sender;
+  if (!riddleGame.isGameActive(chatId)) return;
+  await riddleGame.checkAnswer(chatId, userId, message.text);
+ }
+);
+
+command(
+  {
+   pattern: 'call',
+   desc: 'Initiate a call conversation',
+  },
+  async (message) => {
+   await callConversation(message);
+  }
+ );
