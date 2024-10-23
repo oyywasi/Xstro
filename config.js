@@ -25,7 +25,7 @@ if (DB_URL === './database.db' || !DB_URL.startsWith('postgres://')) {
 module.exports = {
  BOT_INFO: process.env.BOT_INFO || 'Astro;Xstro',
  LOGS: process.env.LOGS || true,
- SESSION_ID: process.env.SESSION_ID || '',
+ SESSION_ID: process.env.SESSION_ID || 'XSTRO_38_33_66',
  PREFIX: process.env.HANDLER || '.',
  ANTI_CALL: process.env.ANTI_CALL || 'false',
  STICKER_PACK: process.env.STICKER_PACK || 'Astro;Xstro',
