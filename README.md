@@ -4,7 +4,7 @@ Xstro Bot is a simple WhatsApp bot built with Baileys, designed for speed and ef
 
 ### GET SESSION
 
-[Click Here](https://pair-xstro-41d180900ced.herokuapp.com/)
+[Click Here](capitalist-caroline-astrox10x-a1a52452.koyeb.app/)
 
 ### Setup
 
