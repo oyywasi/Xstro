@@ -21,7 +21,7 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.reply_message.mediaType === 'imageMessage') return message.reply('_Reply An Image_');
+  if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   let imgpath = await message.download(message.reply_message.messageInfo);
   return await client.updateProfilePicture(message.user, { url: imgpath.filePath });
  }
