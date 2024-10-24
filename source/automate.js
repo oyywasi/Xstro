@@ -424,6 +424,7 @@ command(
      });
      break;
     default:
+     await client.sendMessage(message.jid, { delete: message.key });
      await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed in this group.`, {
       mentions: [message.participant],
      });
