@@ -347,19 +347,37 @@ command(
 
 command(
  {
-  pattern: 'antibot ?(on|warn|kick)?',
-  desc: 'Kicks, warns and deletes messages from other bots',
+  pattern: 'antibot ?(.*)',
+  desc: 'Set AntiBot on | off | warn | kick',
   type: 'group',
  },
  async (message, match, m, client) => {
-  const groupJid = message.chat || message.key.remoteJid;
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
+  if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antibot on | off | warn | kick_');
 
-  const mode = match || 'on';
-  await setAntiBot(groupJid, mode);
-  return message.reply(`_Antibot Activated_`);
+  const isUserAdmin = await isAdmin(message.jid, message.user, client);
+  if (!isUserAdmin) return message.reply("_I'm not an admin._");
+
+  const cmd = match.trim().toLowerCase();
+
+  if (!cmd) {
+   const settings = await getAntiBot(message.jid);
+   return message.reply(settings ? `_AntiBot: ${settings.mode}_` : 'AntiBot is set to off.');
+  }
+
+  if (cmd === 'off') {
+   await deleteAntiBot(message.jid);
+   return message.reply('AntiBot turned off.');
+  }
+
+  const mode = ['on', 'warn', 'kick'].includes(cmd) ? cmd : null;
+  if (!mode) return message.reply('_Invalid mode. Use on, off, warn, or kick._');
+
+  await setAntiBot(message.jid, mode);
+  return message.reply(`_AntiBot set to ${mode}._`);
  }
 );
 
@@ -370,28 +388,40 @@ command(
  },
  async (message, match, m, client) => {
   if (!message.isGroup) return;
-  const groupJid = message.chat || message.key.remoteJid;
-  const antiBot = await getAntiBot(groupJid);
-  if (!antiBot || antiBot.mode === 'off') return;
 
-  if (message.bot && message.participant && !message.participant.includes(message.user)) {
-   const isAdmin = message.participants.find((p) => p.id === message.participant && p.isAdmin);
-   if (isAdmin) return;
+  const settings = await getAntiBot(message.jid);
+  if (!settings || settings.mode === 'off') return;
 
-   if (antiBot.mode === 'on') {
-    await client.sendMessage(groupJid, { text: `Bot message deleted from ${message.participant}.`, mentions: [message.participant] });
-   } else if (antiBot.mode === 'warn') {
-    const warnings = await warnParticipant(groupJid, message.participant);
+  if (message.fromMe) return;
+  const isUserAdmin = await isAdmin(message.jid, message.participant, client);
+  if (isUserAdmin) return;
+
+  // Check if message is from a bot
+  if (message.key && message.key.fromMe === false && message.key.id && message.key.id.startsWith('BAE5')) {
+   await client.sendMessage(message.jid, { delete: message.key });
+
+   if (settings.mode === 'warn') {
+    const warnings = await warnParticipant(message.jid, message.participant);
     if (warnings >= 3) {
-     await client.groupParticipantsUpdate(groupJid, [message.participant], 'remove');
-     await client.sendMessage(groupJid, { text: `Bot kicked after 3 warnings: ${message.participant}.`, mentions: [message.participant] });
-     await resetWarnings(groupJid, message.participant);
+     await client.groupParticipantsUpdate(message.jid, [message.participant], 'remove');
+     await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot after 3 warnings.`, {
+      mentions: [message.participant],
+     });
+     await rWarns(message.jid, message.participant);
     } else {
-     await client.sendMessage(groupJid, { text: `Warning ${warnings}/3 issued to ${message.participant}.`, mentions: [message.participant] });
+     await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed. Warning ${warnings}/3`, {
+      mentions: [message.participant],
+     });
     }
-   } else if (antiBot.mode === 'kick') {
-    await client.groupParticipantsUpdate(groupJid, [message.participant], 'remove');
-    await client.sendMessage(groupJid, { text: `Bot detected and kicked: ${message.participant}.`, mentions: [message.participant] });
+   } else if (settings.mode === 'kick') {
+    await client.groupParticipantsUpdate(message.jid, [message.participant], 'remove');
+    await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot.`, {
+     mentions: [message.participant],
+    });
+   } else {
+    await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed in this group.`, {
+     mentions: [message.participant],
+    });
    }
   }
  }
