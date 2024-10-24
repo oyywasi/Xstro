@@ -1,3 +1,4 @@
+const { generateWAMessageFromContent } = require('baileys');
 const { command, serialize, loadMessage, parsedJid } = require('../lib');
 
 command(
@@ -147,16 +148,17 @@ command(
   desc: 'quoted message',
   type: 'whatsapp',
  },
- async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  if (!message.reply_message) return await message.reply('*Reply to a message*');
-  let key = message.reply_message.key;
-  let msg = await loadMessage(key.id);
-  if (!msg) return await message.reply('_Message not found maybe command might not be running at that time_');
+ async (message) => {
+  if (!message.mode || !message.owner || !message.reply_message) return await message.reply(!message.owner ? owner : '*Reply to a message*');
+  let msg = await loadMessage(message.reply_message.key.id);
+  if (!msg) return await message.reply('_Message not found_');
   msg = await serialize(JSON.parse(JSON.stringify(msg.message)), message.client);
   if (!msg.quoted) return await message.reply('No quoted message found');
-  await message.copyNForward(message.jid, msg.quoted.message);
+  const quotedText = async (jid, quotedMsg, options = {}) => {
+   const generatedMsg = generateWAMessageFromContent(jid, quotedMsg, { ...options, userJid: message.client.user.id });
+   await message.client.relayMessage(jid, generatedMsg.message, { messageId: generatedMsg.key.id, ...options });
+  };
+  await quotedText(message.jid, msg.quoted.message);
  }
 );
 
