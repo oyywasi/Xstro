@@ -392,7 +392,7 @@ command(
   const settings = await getAntiBot(message.jid);
   if (!settings || settings.mode === 'off') return;
 
-  if (message.fromMe) return;
+  if (message.user) return;
   const isUserAdmin = await isAdmin(message.jid, message.participant, client);
   if (isUserAdmin) return;
 
