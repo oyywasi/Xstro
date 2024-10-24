@@ -257,3 +257,17 @@ command(
   await client.sendMessage(message.user, { forward: quotedMessage }, { quoted: message.reply_message.quoted });
  }
 );
+
+command(
+ {
+  pattern: 'logout',
+  desc: 'Logout of bot',
+  type: 'whatsapp',
+ },
+ async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
+  await message.reply('_logged Out_');
+  return client.logout();
+ }
+);
