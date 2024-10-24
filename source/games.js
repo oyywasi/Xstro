@@ -1,5 +1,5 @@
 const { command } = require('../lib');
-const { TicTacToe, WordChainGame, TriviaGame, RiddleGame } = require('../lib/misc');
+const { TicTacToe, WordChainGame, TriviaGame, RiddleGame } = require('../lib');
 
 const wcg = new WordChainGame();
 const ttt = new TicTacToe();
