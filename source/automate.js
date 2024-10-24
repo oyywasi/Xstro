@@ -1,4 +1,4 @@
-const { command, getAntiLink, setAntiLink, deleteAntiLink, AntiWord, addAntiWord, getAntiWords, getAntiSpam, setAntiSpam, addMessage, checkSpam, addWarning, resetWarnings, isAdmin, checkAntiwordEnabled, resetUserWarnings, addUserWarning } = require('../lib');
+const { command, getAntiLink, setAntiLink, deleteAntiLink, AntiWord, addAntiWord, getAntiWords, getAntiSpam, setAntiSpam, addMessage, checkSpam, addWarning, resetWarnings, isAdmin, checkAntiwordEnabled, resetUserWarnings, addUserWarning, AntiBot, getAntiBot, setAntiBot, deleteAntiBot, getWarnings, warnParticipant, rWarns } = require('../lib');
 
 const { Greetings } = require('../lib/client');
 
@@ -341,6 +341,58 @@ command(
   } else {
    await Greetings.setGreeting(message.jid, 'goodbye', text);
    return await message.reply('_Goodbye message has been set successfully_');
+  }
+ }
+);
+
+command(
+ {
+  pattern: 'antibot ?(on|warn|kick)?',
+  desc: 'Kicks, warns and deletes messages from other bots',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  const groupJid = message.chat || message.key.remoteJid;
+  if (!message.mode) return;
+  if (!message.isGroup) return message.reply(group);
+  if (!message.owner) return message.reply(owner);
+
+  const mode = match || 'on';
+  await setAntiBot(groupJid, mode);
+  return message.reply(`_Antibot Activated_`);
+ }
+);
+
+command(
+ {
+  on: 'text',
+  dontAddCommandList: true,
+ },
+ async (message, match, m, client) => {
+  if (!message.isGroup) return;
+  const groupJid = message.chat || message.key.remoteJid;
+  const antiBot = await getAntiBot(groupJid);
+  if (!antiBot || antiBot.mode === 'off') return;
+
+  if (message.bot && message.participant && !message.participant.includes(message.user)) {
+   const isAdmin = message.participants.find((p) => p.id === message.participant && p.isAdmin);
+   if (isAdmin) return;
+
+   if (antiBot.mode === 'on') {
+    await client.sendMessage(groupJid, { text: `Bot message deleted from ${message.participant}.`, mentions: [message.participant] });
+   } else if (antiBot.mode === 'warn') {
+    const warnings = await warnParticipant(groupJid, message.participant);
+    if (warnings >= 3) {
+     await client.groupParticipantsUpdate(groupJid, [message.participant], 'remove');
+     await client.sendMessage(groupJid, { text: `Bot kicked after 3 warnings: ${message.participant}.`, mentions: [message.participant] });
+     await resetWarnings(groupJid, message.participant);
+    } else {
+     await client.sendMessage(groupJid, { text: `Warning ${warnings}/3 issued to ${message.participant}.`, mentions: [message.participant] });
+    }
+   } else if (antiBot.mode === 'kick') {
+    await client.groupParticipantsUpdate(groupJid, [message.participant], 'remove');
+    await client.sendMessage(groupJid, { text: `Bot detected and kicked: ${message.participant}.`, mentions: [message.participant] });
+   }
   }
  }
 );
