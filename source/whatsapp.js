@@ -1,4 +1,4 @@
-const { command, serialize, loadMessage } = require('../lib');
+const { command, serialize, loadMessage, parsedJid } = require('../lib');
 
 command(
  {
@@ -169,18 +169,7 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
-  await client.chatModify(
-   {
-    delete: true,
-    lastMessages: [
-     {
-      key: message.data.key,
-      messageTimestamp: message.timestamp,
-     },
-    ],
-   },
-   message.jid
-  );
+  await client.chatModify({ delete: true, lastMessages: [{ key: message.data.key, messageTimestamp: message.timestamp }] }, message.jid);
   await message.reply('_Cleared.._');
  }
 );
@@ -192,21 +181,9 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  const lstMsg = {
-   message: message.message,
-   key: message.key,
-   messageTimestamp: message.timestamp,
-  };
-  await client.chatModify(
-   {
-    archive: true,
-    lastMessages: [lstMsg],
-   },
-   message.jid
-  );
-  await message.reply('_Archived.._');
+  if (!message.mode || !message.owner) return message.reply(!message.owner ? owner : '');
+  await client.chatModify({ archive: true, lastMessages: [{ message: message.message, key: message.key, messageTimestamp: message.timestamp }] }, message.jid);
+  return message.reply('_Archived.._');
  }
 );
 
@@ -217,21 +194,9 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  const lstMsg = {
-   message: message.message,
-   key: message.key,
-   messageTimestamp: message.timestamp,
-  };
-  await client.chatModify(
-   {
-    archive: false,
-    lastMessages: [lstMsg],
-   },
-   message.jid
-  );
-  await message.reply('_Unarchived.._');
+  if (!message.mode || !message.owner) return message.reply(!message.owner ? owner : '');
+  await client.chatModify({ archive: false, lastMessages: [{ message: message.message, key: message.key, messageTimestamp: message.timestamp }] }, message.jid);
+  return message.reply('_Unarchived.._');
  }
 );
 
@@ -242,15 +207,9 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  await client.chatModify(
-   {
-    pin: true,
-   },
-   message.jid
-  );
-  await message.reply('_Pined.._');
+  if (!message.mode || !message.owner) return message.reply(!message.owner ? owner : '');
+  await client.chatModify({ pin: true }, message.jid);
+  return message.reply('_Pined.._');
  }
 );
 
@@ -261,15 +220,9 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  await client.chatModify(
-   {
-    pin: false,
-   },
-   message.jid
-  );
-  await message.reply('_Unpined.._');
+  if (!message.mode || !message.owner) return message.reply(!message.owner ? owner : '');
+  await client.chatModify({ pin: false }, message.jid);
+  return message.reply('_Unpined.._');
  }
 );
 
@@ -280,22 +233,11 @@ command(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
-  if (!m.quoted) return await message.reply('Reply to a message to forward');
+  if (!message.mode || !message.owner || !m.quoted) return await message.reply(!m.quoted ? 'Reply to a message to forward' : owner);
+  const quotedMessage = message.reply_message.quoted;
   const jids = parsedJid(match);
-  for (const jid of jids) {
-   await client.relayMessage(jid, m.quoted.message, {
-    messageId: m.quoted.key.id,
-    quoted:
-     {
-      key: m.quoted.key,
-      message: m.quoted.message,
-      participant: m.quoted.participant,
-     } || message.data,
-   });
-  }
-  return message.reply('*_Message Forwarded_*');
+  for (const jid of jids) await client.sendMessage(jid, { forward: quotedMessage, contextInfo: { forwardingScore: 999, isForwarded: true } }, { quoted: message.reply_message.quoted });
+  return message.reply('*_Forwarded_*');
  }
 );
 
@@ -308,15 +250,8 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
-  if (!message.reply_message?.image && !message.reply_message.video && !message.reply_message.audio) return await message.reply('_Reply to a status message with media_');
-  const relayOptions = {
-   messageId: m.quoted.key.id,
-   quoted: {
-    key: m.quoted.key,
-    message: m.quoted.message,
-    participant: m.quoted.participant,
-   },
-  };
-  return await client.relayMessage(message.user, m.quoted.message, relayOptions);
+  if (!m.quoted) return await message.reply('_Reply to a status message_');
+  const quotedMessage = message.reply_message.quoted;
+  await client.sendMessage(message.user, { forward: quotedMessage }, { quoted: message.reply_message.quoted });
  }
 );
