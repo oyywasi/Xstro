@@ -391,37 +391,43 @@ command(
 
   const settings = await getAntiBot(message.jid);
   if (!settings || settings.mode === 'off') return;
-
-  if (message.user) return;
+  if (message.fromMe) return;
   const isUserAdmin = await isAdmin(message.jid, message.participant, client);
   if (isUserAdmin) return;
-
-  // Check if message is from a bot
-  if (message.key && message.key.fromMe === false && message.key.id && message.key.id.startsWith('BAE5')) {
+  const isBot = message.key && (message.key.id?.length === 16 || message.key.id?.startsWith('BAE5') || message.key.id?.startsWith('3EB0'));
+  if (isBot) {
    await client.sendMessage(message.jid, { delete: message.key });
 
-   if (settings.mode === 'warn') {
-    const warnings = await warnParticipant(message.jid, message.participant);
-    if (warnings >= 3) {
+   switch (settings.mode) {
+    case 'warn':
+     const warnings = (await getWarnings(message.jid, message.participant)) || 0;
+     const newWarnings = warnings + 1;
+
+     if (newWarnings >= 3) {
+      await client.groupParticipantsUpdate(message.jid, [message.participant], 'remove');
+      await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot after 3 warnings.`, {
+       mentions: [message.participant],
+      });
+      await rWarns(message.jid, message.participant);
+     } else {
+      await warnParticipant(message.jid, message.participant);
+      await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed. Warning ${newWarnings}/3`, {
+       mentions: [message.participant],
+      });
+     }
+     break;
+
+    case 'kick':
      await client.groupParticipantsUpdate(message.jid, [message.participant], 'remove');
-     await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot after 3 warnings.`, {
+     await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot.`, {
       mentions: [message.participant],
      });
-     await rWarns(message.jid, message.participant);
-    } else {
-     await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed. Warning ${warnings}/3`, {
+     break;
+    default:
+     await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed in this group.`, {
       mentions: [message.participant],
      });
-    }
-   } else if (settings.mode === 'kick') {
-    await client.groupParticipantsUpdate(message.jid, [message.participant], 'remove');
-    await message.reply(`@${message.participant.split('@')[0]} was kicked for using a bot.`, {
-     mentions: [message.participant],
-    });
-   } else {
-    await message.reply(`@${message.participant.split('@')[0]}, bot usage is not allowed in this group.`, {
-     mentions: [message.participant],
-    });
+     break;
    }
   }
  }
