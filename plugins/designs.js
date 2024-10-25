@@ -10,7 +10,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await heartDesign(message);
 //  }
 // );
@@ -22,7 +22,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await weatherDesign(message);
 //  }
 // );
@@ -35,7 +35,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await gemDesign(message);
 //  }
 // );
@@ -48,7 +48,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await treeDesign(message);
 //  }
 // );
@@ -61,7 +61,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await musicDesign(message);
 //  }
 // );
@@ -74,7 +74,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await sportDesign(message);
 //  }
 // );
@@ -87,7 +87,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await toolDesign(message);
 //  }
 // );
@@ -100,7 +100,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await holidayDesign(message);
 //  }
 // );
@@ -113,7 +113,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await dessertDesign(message);
 //  }
 // );
@@ -126,7 +126,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await travelDesign(message);
 //  }
 // );
@@ -139,7 +139,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await spaceDesign(message);
 //  }
 // );
@@ -152,7 +152,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await fashionDesign(message);
 //  }
 // );
@@ -165,7 +165,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await beverageDesign(message);
 //  }
 // );
@@ -178,7 +178,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await instrumentDesign(message);
 //  }
 // );
@@ -191,7 +191,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await gameDesign(message);
 //  }
 // );
@@ -204,7 +204,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await emojiArtDesign(message);
 //  }
 // );
@@ -217,7 +217,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await partyDesign(message);
 //  }
 // );
@@ -230,7 +230,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await holidaySeasonDesign(message);
 //  }
 // );
@@ -243,7 +243,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await fitnessDesign(message);
 //  }
 // );
@@ -256,7 +256,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await technologyDesign(message);
 //  }
 // );
@@ -269,7 +269,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await animalEmojiDesign(message);
 //  }
 // );
@@ -282,7 +282,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await kissDesign(message);
 //  }
 // );
@@ -295,7 +295,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await hugDesign(message);
 //  }
 // );
@@ -308,7 +308,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await slapDesign(message);
 //  }
 // );
@@ -321,7 +321,7 @@
 //  },
 //  async (message) => {
 //   if (!message.mode) return;
-//   if (message.isban) return await message.reply(ban);
+//   if (message.isban) return message.reply(ban);
 //   await callConversation(message);
 //  }
 // );

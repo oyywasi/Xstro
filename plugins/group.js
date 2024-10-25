@@ -13,9 +13,9 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  match = match || message.reply_message.text;
+  match = match || message.reply_message?.text;
   if (!match) return await message.reply('_Enter a valid group link!_');
   const inviteCode = extractInviteCode(match);
   if (!inviteCode) return await message.reply('_Enter a valid group link!_');
@@ -38,12 +38,11 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  match = match || message.reply_message.sender;
+  if (!m.isAdmin) return message.reply(admin);
+  match = match || message.reply_message?.sender;
   if (!match) return await message.reply('_Mention a user to add_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'add');
   return await message.reply(`_@${jid[0].split('@')[0]} added_`, { mentions: [jid] });
@@ -59,12 +58,11 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  match = match || message.reply_message.sender;
+  if (!m.isAdmin) return message.reply(admin);
+  match = match || message.reply_message?.sender;
   if (!match) return await message.reply('_Mention a user to kick_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'remove');
   return await message.reply(`_@${jid[0].split('@')[0]} kicked_`, { mentions: [jid] });
@@ -80,12 +78,10 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to promote_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'promote');
   return await message.reply(`_@${jid[0].split('@')[0]} promoted to admin_`, { mentions: [jid] });
@@ -101,12 +97,10 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to demote_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'demote');
   return await message.reply(`_@${jid[0].split('@')[0]} demoted from admin_`, { mentions: [jid] });
@@ -122,10 +116,8 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   await message.reply('_Muting the group_');
   return await client.groupSettingUpdate(message.jid, 'announcement');
  }
@@ -140,10 +132,8 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   await message.reply('_Unmuting the group_');
   return await client.groupSettingUpdate(message.jid, 'not_announcement');
  }
@@ -158,8 +148,7 @@ handler(
  async (message, match) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
   const { participants } = await message.client.groupMetadata(message.jid);
   const participantJids = participants.map((u) => u.id);
   let result = '╭──〔 *Group JIDs* 〕\n';
@@ -180,8 +169,8 @@ handler(
  async (message, match) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   const { participants } = await message.client.groupMetadata(message.jid);
   let mentionsText = '';
   participants.forEach((mem) => {
@@ -200,8 +189,7 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
   let taggedMsg = match || message.reply_message?.text || '';
   if (!taggedMsg) return await message.reply('_Reply A Message Or Give Me Text_');
   const { participants } = await client.groupMetadata(message.jid);
@@ -218,11 +206,9 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   if (!match) return await message.reply('_Provide a name to change the group name_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   await client.groupUpdateSubject(message.jid, match);
   return await message.reply(`_Group name changed to: ${match}_`);
  }
@@ -237,11 +223,9 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   if (!match) return await message.reply('_Provide a description to change the group description_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
   await client.groupUpdateDescription(message.jid, match);
   return await message.reply('_Group description updated_');
  }
@@ -249,64 +233,41 @@ handler(
 
 handler(
  {
-  pattern: 'requests',
-  desc: 'Show pending join requests',
+  pattern: 'acceptall',
+  desc: 'Accept all pending join requests',
   type: 'group',
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (!m.isAdmin) return message.reply(admin);
   const requests = await client.groupRequestParticipantsList(message.jid);
   if (requests.length === 0) return await message.reply('_No pending join requests_');
-  let requestList = 'Pending Join Requests:\n';
-  requests.forEach((request, index) => {
-   requestList += `${index + 1}. @${request.jid.split('@')[0]}\n`;
-  });
-  return await message.reply(requestList, { mentions: requests.map((r) => r.jid) });
+  const jids = requests.map((r) => r.jid);
+  await client.groupRequestParticipantsUpdate(message.jid, jids, 'approve');
+  return await message.reply(`_Successfully accepted all ${jids.length} pending join requests_`);
  }
 );
 
 handler(
  {
-  pattern: 'accept',
-  desc: 'Accept join request',
+  pattern: 'rejectall',
+  desc: 'Reject all pending join requests',
   type: 'group',
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!match) return await message.reply('_Provide the number or @tag of the request to accept_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
-  const jid = parsedJid(match)[0];
-  await client.groupRequestParticipantsUpdate(message.jid, [jid], 'approve');
-  return await message.reply(`_Join request for @${jid.split('@')[0]} accepted_`, { mentions: [jid] });
- }
-);
-
-handler(
- {
-  pattern: 'reject',
-  desc: 'Reject join request',
-  type: 'group',
- },
- async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  if (!match) return await message.reply('_Provide the number or @tag of the request to reject_');
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
-  const jid = parsedJid(match)[0];
-  await client.groupRequestParticipantsUpdate(message.jid, [jid], 'reject');
-  return await message.reply(`_Join request for @${jid.split('@')[0]} rejected_`, { mentions: [jid] });
+  if (!m.isAdmin) return message.reply(admin);
+  const requests = await client.groupRequestParticipantsList(message.jid);
+  if (requests.length === 0) return await message.reply('_No pending join requests_');
+  const jids = requests.map((r) => r.jid);
+  await client.groupRequestParticipantsUpdate(message.jid, jids, 'reject');
+  return await message.reply(`_Successfully rejected all ${jids.length} pending join requests_`);
  }
 );
 
@@ -317,7 +278,7 @@ handler(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('_Provide a name for the new group_');
@@ -337,7 +298,7 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   await message.reply('_Leaving the group. Goodbye!_');
   return await client.groupLeave(message.jid);
@@ -353,10 +314,9 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (!m.isAdmin) return message.reply(admin);
   const code = await client.groupInviteCode(message.jid);
   return await message.reply('_https://chat.whatsapp.com/' + code + '_');
  }
@@ -371,10 +331,8 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   const newcode = await client.groupRevokeInvite(message.jid);
   return await message.reply('_Group Link Revoked!_\n_https://chat.whatsapp.com/' + newcode + '_');
  }
@@ -389,10 +347,8 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   const meta = await client.groupMetadata(message.jid);
   if (meta.restrict) return await message.send('_Already only admin can modify group settings_');
   await client.groupSettingUpdate(message.jid, 'locked');
@@ -409,10 +365,8 @@ handler(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return await message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const isadmin = await isAdmin(message.jid, message.user, client);
-  if (!isadmin) return await message.reply("_I'm not admin_");
+  if (message.isban) return message.reply(ban);
+  if (!m.isAdmin) return message.reply(admin);
   const meta = await message.client.groupMetadata(message.jid);
   if (!meta.restrict) return await message.send('_Already everyone can modify group settings_');
   await client.groupSettingUpdate(message.jid, 'unlocked');

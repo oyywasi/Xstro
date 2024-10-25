@@ -10,7 +10,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   const { prefix, sender } = message;
   const currentTime = new Date().toLocaleTimeString('en-IN', {
    timeZone: process.env.TZ,
@@ -58,7 +58,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   let commandListText = '*about commands*\n';
   const commandList = [];
   commands.forEach((command) => {

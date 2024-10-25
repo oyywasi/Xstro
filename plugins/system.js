@@ -36,7 +36,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   await message.reply('Restarting the bot...');
   const filePath = path.resolve(__dirname, '..', 'index.js');
   spawn(process.execPath, [filePath], {
@@ -55,7 +55,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   await message.reply('Shutting down the bot...');
   process.exit();
  }
@@ -69,7 +69,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   const cpus = os.cpus();
   const coreCount = cpus.length;
   const model = cpus[0].model;
@@ -91,7 +91,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   const interfaces = os.networkInterfaces();
   const interfaceDetails = Object.keys(interfaces)
    .map((iface) => {
@@ -112,7 +112,7 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return message.reply(ban);
   const uptime = await runtime(process.uptime());
   return await message.send(tiny(`Running Since ${uptime}`));
  }
