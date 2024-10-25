@@ -1,4 +1,4 @@
-const { command } = require('../lib');
+const { handler } = require('../lib');
 const { TicTacToe, WordChainGame, TriviaGame, RiddleGame, AnagramGame } = require('../lib');
 
 const wcg = new WordChainGame();
@@ -7,7 +7,7 @@ const triviaGame = new TriviaGame();
 const riddleGame = new RiddleGame();
 const anagramGame = new AnagramGame();
 
-command(
+handler(
  {
   pattern: 'wcg',
   desc: 'Word Chain Game',
@@ -25,7 +25,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -61,7 +61,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'ttt',
   desc: 'Tic Tac Toe Game',
@@ -77,7 +77,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -113,7 +113,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'trivia ?(.*)',
   desc: 'Play Trivia Game (easy/medium/hard)',
@@ -133,7 +133,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -173,7 +173,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'riddle ?(.*)',
   desc: 'Play Riddle Game (start/end/score)',
@@ -223,7 +223,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -238,7 +238,7 @@ command(
 
 // let activeGameJid = null;
 
-// command(
+// handler(
 //  {
 //   pattern: 'anagram',
 //   desc: 'Play Anagram Game',
@@ -273,7 +273,7 @@ command(
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   on: 'text',
 //   dontAddCommandList: true,

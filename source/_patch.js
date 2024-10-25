@@ -1,7 +1,7 @@
-const { command } = require('../lib');
+const { handler } = require('../lib');
 const util = require('util');
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -42,7 +42,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,

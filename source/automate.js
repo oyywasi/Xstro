@@ -1,6 +1,6 @@
-const { command, getAntiLink, setAntiLink, deleteAntiLink, AntiWord, addAntiWord, getAntiWords, getAntiSpam, setAntiSpam, addMessage, checkSpam, addWarning, resetWarnings, isAdmin, checkAntiwordEnabled, resetUserWarnings, addUserWarning, getAntiBot, setAntiBot, deleteAntiBot, getWarnings, warnParticipant, rWarns } = require('../lib');
+const { handler, getAntiLink, setAntiLink, deleteAntiLink, AntiWord, addAntiWord, getAntiWords, getAntiSpam, setAntiSpam, addMessage, checkSpam, addWarning, resetWarnings, isAdmin, checkAntiwordEnabled, resetUserWarnings, addUserWarning, getAntiBot, setAntiBot, deleteAntiBot, getWarnings, warnParticipant, rWarns } = require('../lib');
 
-command(
+handler(
  {
   pattern: 'antilink ?(.*)',
   desc: 'Set AntiLink on | off | delete | kick',
@@ -30,7 +30,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -54,7 +54,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'antiword ?(.*)',
   desc: 'Manage forbidden words and antiword settings',
@@ -119,7 +119,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -153,7 +153,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'antispam ?(.*)',
   desc: 'Set AntiSpam on | off | kick | warn',
@@ -193,7 +193,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -253,7 +253,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'antibot ?(.*)',
   desc: 'Set AntiBot on | off | warn | kick',
@@ -289,7 +289,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,

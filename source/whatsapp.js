@@ -1,8 +1,8 @@
 const { generateWAMessageFromContent } = require('baileys');
-const { command, serialize, loadMessage, parsedJid } = require('../lib');
+const { handler, serialize, loadMessage, parsedJid } = require('../lib');
 const config = require('../config');
 
-command(
+handler(
  {
   pattern: 'vv ?(.*)',
   desc: 'Downloads ViewOnce Messages',
@@ -22,7 +22,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'setpp ?(.*)',
   desc: 'change WhatsApp profile Picture',
@@ -37,7 +37,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'setname',
   desc: 'Set User name',
@@ -53,7 +53,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'block',
   desc: 'Block a person',
@@ -76,7 +76,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unblock',
   desc: 'Unblocks a person',
@@ -99,7 +99,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'jid',
   desc: 'Give jid of chat/user',
@@ -114,7 +114,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'dlt',
   desc: 'Deletes your message or a replied message',
@@ -128,7 +128,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'edit ?(.*)',
   desc: 'Edit message sent by the command',
@@ -143,7 +143,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'quoted',
   desc: 'quoted message',
@@ -163,7 +163,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'clear ?(.*)',
   desc: 'delete whatsapp chat',
@@ -177,7 +177,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'archive ?(.*)',
   desc: 'archive whatsapp chat',
@@ -190,7 +190,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unarchive ?(.*)',
   desc: 'unarchive whatsapp chat',
@@ -203,7 +203,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'pin',
   desc: 'pin a chat',
@@ -216,7 +216,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unpin ?(.*)',
   desc: 'unpin a msg',
@@ -229,7 +229,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'forward ?(.*)',
   desc: 'Forwards the replied message (any type) with quote',
@@ -244,7 +244,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'save ?(.*)',
   desc: 'Saves WhatsApp Status',
@@ -259,7 +259,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'logout',
   desc: 'Logout of bot',

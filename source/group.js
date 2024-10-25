@@ -1,11 +1,11 @@
-const { command, parsedJid, isAdmin } = require('../lib');
+const { handler, parsedJid, isAdmin } = require('../lib');
 
 function extractInviteCode(text) {
  const match = text.match(/https?:\/\/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);
  return match ? match[1] : null;
 }
 
-command(
+handler(
  {
   pattern: 'join',
   desc: 'Joins Group From Invite',
@@ -29,7 +29,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'add',
   desc: 'Add a person to group',
@@ -50,7 +50,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'kick',
   desc: 'Kick a person from group',
@@ -71,7 +71,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'promote',
   desc: 'Promote to admin',
@@ -92,7 +92,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'demote',
   desc: 'Demote from admin',
@@ -113,7 +113,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'mute',
   desc: 'Mute group',
@@ -131,7 +131,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unmute',
   desc: 'Unmute group',
@@ -149,7 +149,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'gjid',
   desc: 'Get JIDs of all group members',
@@ -171,7 +171,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'tagall',
   desc: 'Mention all users in group',
@@ -191,7 +191,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'tag',
   desc: 'Tag users with custom message',
@@ -209,7 +209,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'gname',
   desc: 'Change group name',
@@ -228,7 +228,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'gdesc',
   desc: 'Change group description',
@@ -247,7 +247,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'requests',
   desc: 'Show pending join requests',
@@ -270,7 +270,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'accept',
   desc: 'Accept join request',
@@ -290,7 +290,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'reject',
   desc: 'Reject join request',
@@ -310,7 +310,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'newgc',
   desc: 'Create a new group',
@@ -328,7 +328,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'leave',
   desc: 'Leave the group',
@@ -344,7 +344,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'invite',
   desc: 'Get Group Invite',
@@ -362,7 +362,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'revoke',
   desc: 'Revoke Group Invite',
@@ -380,7 +380,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'lock ?(.*)',
   desc: "only allow admins to modify the group's settings",
@@ -400,7 +400,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unlock ?(.*)',
   desc: "allow everyone to modify the group's settings -- like display picture etc.",

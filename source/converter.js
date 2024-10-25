@@ -1,8 +1,8 @@
-const { command } = require('../lib');
+const { handler } = require('../lib');
 const { STICKER_PACK } = require('../config');
 const { fancy } = require('xstro');
 
-command(
+handler(
  {
   pattern: 'sticker ?(.*)',
   desc: 'Converts Image/Video to Sticker',
@@ -22,7 +22,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'take ?(.*)',
   desc: 'Saves Stickers to be Yours',
@@ -42,7 +42,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'img',
   desc: 'Converts Sticker/Video to Images',
@@ -58,7 +58,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'mp3',
   desc: 'Converts Video to Mp3 Audio',
@@ -73,7 +73,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'fancy',
   alias: 'styly',

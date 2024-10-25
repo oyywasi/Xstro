@@ -1,9 +1,9 @@
-const { command } = require('../lib');
+const { handler } = require('../lib');
 const fs = require('fs');
 const path = require('path');
 const { upload, isUrl, ssweb } = require('xstro');
 
-command(
+handler(
  {
   pattern: 'temp',
   desc: 'Clean temp folder',
@@ -19,7 +19,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'upload',
   alias: 'url',
@@ -36,7 +36,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'ssweb',
   desc: 'ScreenShot A Website',

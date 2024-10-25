@@ -1,9 +1,9 @@
-const { command, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, getAutoReactSettings, getMentionMessage, updateMentionMessage, addMentionMessage, setAutoReactSettings } = require('../lib');
+const { handler, parsedJid, PausedChats, savePausedChat, saveWarn, resetWarn, getFilter, setFilter, deleteFilter, addSudo, getAllSudos, deleteSudo, banUser, unbanUser, getBannedUsers, getBan, getAliveMessage, addAliveMessage, updateAliveMessage, getAutoReactSettings, getMentionMessage, updateMentionMessage, addMentionMessage, setAutoReactSettings } = require('../lib');
 
 const { runtime, getRandomFact, getRandomQuote } = require('../lib');
 const { WARN_COUNT, BOT_INFO } = require('../config');
 
-command(
+handler(
  {
   pattern: 'pause',
   desc: 'Pause the chat',
@@ -19,7 +19,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'resume',
   desc: 'Resume the paused chat',
@@ -40,7 +40,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'warn',
   desc: 'Warn a user',
@@ -67,7 +67,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'rwarn',
   desc: 'Reset warnings for a user',
@@ -84,7 +84,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'filter',
   desc: 'Adds a filter.',
@@ -113,7 +113,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'fstop',
   desc: 'Stops a previously added filter.',
@@ -133,7 +133,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   dontAddCommandList: true,
@@ -152,7 +152,7 @@ function cleanUserId(userId) {
  return userId.split('@')[0];
 }
 
-command(
+handler(
  {
   pattern: 'setsudo',
   desc: 'Set Sudo Numbers For the Bot',
@@ -171,7 +171,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'getsudo',
   desc: 'Get the list of all sudo numbers of the bot',
@@ -189,7 +189,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'delsudo',
   desc: 'Delete A Sudo',
@@ -211,7 +211,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'ban',
   desc: 'Bans a user from using the bot',
@@ -230,7 +230,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'unban',
   desc: 'Unbans a user',
@@ -251,7 +251,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'getban',
   desc: 'Returns a list of banned users',
@@ -269,7 +269,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'report',
   desc: 'Report A Bug',
@@ -300,7 +300,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'alive',
   desc: 'send or set alive message (customizable)',
@@ -336,7 +336,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'autoreact ?(.*)',
   fromMe: true,
@@ -368,7 +368,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   fromMe: false,
@@ -383,7 +383,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'mention ?(.*)',
   desc: 'Set or show mention response (customizable)',
@@ -412,7 +412,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   on: 'text',
   fromMe: false,

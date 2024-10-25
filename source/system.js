@@ -1,10 +1,10 @@
-const { command, runtime } = require('../lib');
+const { handler, runtime } = require('../lib');
 const { spawn, exec } = require('child_process');
 const path = require('path');
 const os = require('os');
 const { tiny } = require('xstro');
 
-command(
+handler(
  {
   pattern: 'ping',
   alias: 'speed',
@@ -27,7 +27,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'restart',
   alias: 'reboot',
@@ -47,7 +47,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'shutdown',
   desc: 'Shutdown System',
@@ -61,7 +61,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'cpu',
   desc: 'Get CPU details',
@@ -83,7 +83,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'network',
   desc: 'Get network interfaces details',
@@ -104,7 +104,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'runtime',
   desc: 'Get Runtime Of Bot',

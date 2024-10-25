@@ -1,7 +1,7 @@
 const { twitter, isUrl } = require('xstro');
-const { command, getJson } = require('../lib');
+const { handler, getJson } = require('../lib');
 
-command(
+handler(
  {
   pattern: 'twitter ?(.*)',
   desc: 'downloads x videos',
@@ -17,7 +17,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'drive',
   desc: 'downloads documents from Google Drive URl',
@@ -34,7 +34,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'tiktok',
   desc: 'downloads tiktok vidoes',
@@ -52,7 +52,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'spotify',
   desc: 'downloads spotify music',
@@ -70,7 +70,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'ytmp4',
   desc: 'download youtube video mp4',
@@ -86,7 +86,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'ytmp3',
   desc: 'download youtube videos mp3',

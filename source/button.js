@@ -1,6 +1,6 @@
-const { command } = require('../lib');
+const { handler } = require('../lib');
 
-command(
+handler(
  {
   pattern: 'button',
   

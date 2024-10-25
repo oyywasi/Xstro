@@ -1,7 +1,7 @@
 const { tiny } = require('xstro');
-const { command, commands, runtime } = require('../lib');
+const { handler, commands, runtime } = require('../lib');
 
-command(
+handler(
  {
   pattern: 'menu',
   alias: 'help',
@@ -50,7 +50,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'list',
   description: 'Show All Commands',

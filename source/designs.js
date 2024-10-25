@@ -1,8 +1,8 @@
-// const { command } = require('../lib');
+// const { handler } = require('../lib');
 
 // const { heartDesign, weatherDesign, gemDesign, treeDesign, musicDesign, sportDesign, toolDesign, holidayDesign, dessertDesign, travelDesign, spaceDesign, fashionDesign, beverageDesign, instrumentDesign, gameDesign, emojiArtDesign, partyDesign, holidaySeasonDesign, fitnessDesign, technologyDesign, animalEmojiDesign, kissDesign, hugDesign, slapDesign, callConversation } = require('../lib');
 
-// command(
+// handler(
 //  {
 //   pattern: 'hrt',
 //   desc: 'Heart Designs',
@@ -14,7 +14,7 @@
 //   await heartDesign(message);
 //  }
 // );
-// command(
+// handler(
 //  {
 //   pattern: 'wth',
 //   desc: 'Weather Designs',
@@ -27,7 +27,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'gem',
 //   desc: 'Gem Designs',
@@ -40,7 +40,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'tree',
 //   desc: 'Tree Designs',
@@ -53,7 +53,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'msc',
 //   desc: 'Music Designs',
@@ -66,7 +66,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'sts',
 //   desc: 'Sport Designs',
@@ -79,7 +79,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'tls',
 //   desc: 'Tool Designs',
@@ -92,7 +92,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'holi',
 //   desc: 'Holiday Designs',
@@ -105,7 +105,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'desi',
 //   desc: 'Dessert Designs',
@@ -118,7 +118,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'trv',
 //   desc: 'Travel Designs',
@@ -131,7 +131,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'spc',
 //   desc: 'Space Designs',
@@ -144,7 +144,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'fas',
 //   desc: 'Fashion Designs',
@@ -157,7 +157,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'bev',
 //   desc: 'Beverage Designs',
@@ -170,7 +170,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'ist',
 //   desc: 'Instrument Designs',
@@ -183,7 +183,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'gs',
 //   desc: 'Game Designs',
@@ -196,7 +196,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'ert',
 //   desc: 'Emoji Art Designs',
@@ -209,7 +209,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'pty',
 //   desc: 'Party Designs',
@@ -222,7 +222,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'hol',
 //   desc: 'Holiday Season Designs',
@@ -235,7 +235,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'fit',
 //   desc: 'Fitness Designs',
@@ -248,7 +248,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'tec',
 //   desc: 'Technology Designs',
@@ -261,7 +261,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'ani',
 //   desc: 'Animal Emoji Designs',
@@ -274,7 +274,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'kiss',
 //   desc: 'Kiss Designs',
@@ -287,7 +287,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'hug',
 //   desc: 'Hug Designs',
@@ -300,7 +300,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'slap',
 //   desc: 'Slap Designs',
@@ -313,7 +313,7 @@
 //  }
 // );
 
-// command(
+// handler(
 //  {
 //   pattern: 'call',
 //   desc: 'Initiate a call conversation',

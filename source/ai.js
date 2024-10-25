@@ -1,7 +1,7 @@
 const { enhanceImage } = require('xstro');
-const { command } = require('../lib');
+const { handler } = require('../lib');
 
-command(
+handler(
  {
   pattern: 'upscale',
   alias: 'enhance',
@@ -18,7 +18,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'recolor',
   desc: 'Recolors Dead Images',
@@ -34,7 +34,7 @@ command(
  }
 );
 
-command(
+handler(
  {
   pattern: 'dehaze',
   desc: 'Add dehaze effect to an image',
