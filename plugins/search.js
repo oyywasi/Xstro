@@ -1,4 +1,4 @@
-const { tiny, getFloor } = require('xstro');
+const { tiny, getFloor, Google } = require('xstro');
 const { handler, getJson } = require('../lib');
 const moment = require('moment');
 
@@ -85,5 +85,66 @@ handler(
   const { name, timezone, sys, main, weather, visibility, wind } = data;
   const degree = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'][getFloor(wind.deg / 22.5 + 0.5) % 16];
   return await message.send(tiny(`*Name :* ${name}\n*Country :* ${sys.country}\n*Weather :* ${weather[0].description}\n*Temp :* ${getFloor(main.temp)}°\n*Feels Like :* ${getFloor(main.feels_like)}°\n*Humidity :* ${main.humidity}%\n*Visibility  :* ${visibility}m\n*Wind* : ${wind.speed}m/s ${degree}\n*Sunrise :* ${moment.utc(sys.sunrise, 'X').add(timezone, 'seconds').format('hh:mm a')}\n*Sunset :* ${moment.utc(sys.sunset, 'X').add(timezone, 'seconds').format('hh:mm a')}`));
+ }
+);
+
+handler(
+ {
+  pattern: 'wallpaper',
+  desc: 'Search wallpaper',
+  type: 'search',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!match) return message.reply('_provide query_');
+  const res = await getJson(`https://api.giftedtech.my.id/api/search/wallpaper?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
+  if (!res || !res.results || res.results.length === 0) return message.reply('_no results found_');
+  const sentSuffixes = new Set();
+  for (const wallpaper of res.results) {
+   for (const image of wallpaper.image) {
+    const suffixMatch = image.match(/_(w\d+)\.webp$/);
+    const suffix = suffixMatch ? suffixMatch[1] : null;
+
+    if (suffix && !sentSuffixes.has(suffix)) {
+     sentSuffixes.add(suffix);
+     await message.send(image);
+    }
+   }
+  }
+ }
+);
+
+handler(
+ {
+  pattern: 'google',
+  desc: 'perform google search',
+  type: 'search',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!match) return message.reply('_provide query_');
+  const msg = await message.reply('_Searching for ' + match + '_');
+  const res = await Google(match);
+  return await msg.edit(res);
+ }
+);
+
+handler(
+ {
+  pattern: 'lyrics',
+  desc: 'Perform lyrics search',
+  type: 'search',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!match) return message.reply('_provide query_');
+  const msg = await message.reply('_Searching for ' + match + '_');
+  const res = await getJson(`https://api.giftedtech.my.id/api/search/lyrics?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
+  const { Artist, Title, Lyrics } = res.result;
+  const result = `🎶 *${Title}* by *${Artist}*\n\n${Lyrics}`;
+  return await msg.edit(tiny(result));
  }
 );
