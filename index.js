@@ -20,7 +20,7 @@ async function readAndRequireFiles(directory) {
 }
 
 async function initialize() {
- await readAndRequireFiles(path.join(__dirname, '/lib/store/'));
+ await readAndRequireFiles(path.join(__dirname, '/lib/sql/'));
  console.log('Syncing Database');
  await config.DATABASE.sync();
  console.log('⬇  Installing Plugins...');
