@@ -1,7 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('./config');
-const { makeSession } = require('./lib');
 async function readAndRequireFiles(directory) {
  const files = await fs.readdir(directory);
  return await Promise.all(
@@ -26,7 +25,6 @@ async function initialize() {
  console.log('⬇  Installing Plugins...');
  await readAndRequireFiles(path.join(__dirname, '/source/'));
  console.log('📑 Plugins Installed!');
- await makeSession(config.SESSION_ID).then(console.log);
  const Client = require('./lib/client');
  const bot = new Client();
  return bot.connect();
