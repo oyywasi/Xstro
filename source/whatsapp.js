@@ -1,5 +1,6 @@
 const { generateWAMessageFromContent } = require('baileys');
 const { command, serialize, loadMessage, parsedJid } = require('../lib');
+const config = require('../config');
 
 command(
  {
@@ -269,5 +270,51 @@ command(
   if (!message.owner) return message.reply(owner);
   await message.reply('_logged Out_');
   return client.logout();
+ }
+);
+
+const handleAntiDelete = async (message, client) => {
+ const isEnabled = config.ANTI_DELETE_ENABLED;
+ if (!config.ANTI_DELETE) return await message.reply('Please set ANTI_DELETE jid in config first');
+ config.ANTI_DELETE_ENABLED = !isEnabled;
+ return await message.reply(`Anti-delete has been ${!isEnabled ? 'enabled' : 'disabled'}`);
+};
+
+const handleDeletedMessage = async (client, msg) => {
+ try {
+  if (!config.ANTI_DELETE_ENABLED) return;
+
+  if (msg.type === 'protocolMessage' && msg.message?.protocolMessage?.type === 'REVOKE') {
+   await client.sendMessage(msg.key.remoteJid, { text: 'A message was deleted' });
+   const deletedMsg = await loadMessage(msg.message.protocolMessage.key.id);
+
+   if (!deletedMsg) {
+    console.log('Deleted message not found in store');
+    return;
+   }
+   const forwardedMsg = generateWAMessageFromContent(config.ANTI_DELETE, deletedMsg.message, { userJid: client.user.id });
+   await client.relayMessage(config.ANTI_DELETE, forwardedMsg.message, { messageId: forwardedMsg.key.id });
+   return forwardedMsg;
+  }
+ } catch (error) {
+  console.error('Error handling deleted message:', error);
+ }
+};
+
+command(
+ {
+  pattern: 'antidel',
+  desc: 'Toggle anti-delete message logging',
+  type: 'whatsapp',
+ },
+ handleAntiDelete
+);
+
+command(
+ {
+  on: 'text',
+ },
+ async (message, match, m, client) => {
+  await handleDeletedMessage(client, m);
  }
 );

@@ -34,6 +34,8 @@ module.exports = {
  AUTO_READ_MESSAGE: process.env.AUTO_READ || false,
  AUTO_STATUS_READ: process.env.AUTO_STATUS_READ || false,
  PRESENCE_UPDATE: process.env.PRESENCE_UPDATE || 'available',
+ ANTI_DELETE: process.env.ANTI_DELETE || true,
+ ANTI_DELETE_ENABLED: process.env.ANTI_DELETE_ENABLED || true,
  MODE: process.env.MODE || 'private',
  DATABASE_URL: DB_URL,
  DATABASE: sequelize,
