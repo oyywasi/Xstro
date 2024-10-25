@@ -27,8 +27,8 @@ async function initialize() {
  await readAndRequireFiles(path.join(__dirname, '/source/'));
  console.log('📑 Plugins Installed!');
  await makeSession(config.SESSION_ID).then(console.log);
- const WhatsAppBot = require('./lib/bot');
- const bot = new WhatsAppBot();
+ const Client = require('./lib/client');
+ const bot = new Client();
  return bot.connect();
 }
 

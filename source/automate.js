@@ -1,7 +1,5 @@
 const { command, getAntiLink, setAntiLink, deleteAntiLink, AntiWord, addAntiWord, getAntiWords, getAntiSpam, setAntiSpam, addMessage, checkSpam, addWarning, resetWarnings, isAdmin, checkAntiwordEnabled, resetUserWarnings, addUserWarning, getAntiBot, setAntiBot, deleteAntiBot, getWarnings, warnParticipant, rWarns } = require('../lib');
 
-const { Greetings } = require('../lib/client');
-
 command(
  {
   pattern: 'antilink ?(.*)',
@@ -251,96 +249,6 @@ command(
    }
   } else {
    await addMessage(message.jid, message.participant, message.text);
-  }
- }
-);
-
-command(
- {
-  pattern: 'welcome',
-  fromMe: true,
-  desc: 'Manage welcome messages',
-  type: 'group',
- },
- async (message, match) => {
-  if (!message.isGroup) return await message.reply('This command can only be used in groups.');
-
-  const { prefix } = message;
-  const status = await Greetings.getGreetingStatus(message.jid, 'welcome');
-  const stat = status ? 'on' : 'off';
-
-  if (!match) {
-   const replyMsg = `Welcome Message Manager\n\nGroup: ${(await message.client.groupMetadata(message.jid)).subject}\nStatus: ${stat}\n\nAvailable Actions:\n\n- ${prefix}welcome get: Get the current welcome message\n- ${prefix}welcome on: Enable welcome message\n- ${prefix}welcome off: Disable welcome message\n- ${prefix}welcome delete: Delete the welcome message\n- ${prefix}welcome <text>: Set a new welcome message`;
-   return await message.reply(replyMsg);
-  }
-
-  const [action, ...args] = match.split(' ');
-  const text = args.join(' ');
-
-  if (action === 'get') {
-   const msg = await Greetings.getGreetingMessage(message.jid, 'welcome');
-   if (!msg) return await message.reply('_There is no welcome message set_');
-   const testMessage = await Greetings.formatMessage(msg.message, message);
-   return message.reply(`Current welcome message:\n\n${testMessage}`);
-  } else if (action === 'on') {
-   if (status) return await message.reply('_Welcome message is already enabled_');
-   await Greetings.toggleGreetingStatus(message.jid, 'welcome');
-   return await message.reply('_Welcome message has been enabled_');
-  } else if (action === 'off') {
-   if (!status) return await message.reply('_Welcome message is already disabled_');
-   await Greetings.toggleGreetingStatus(message.jid, 'welcome');
-   return await message.reply('_Welcome message has been disabled_');
-  } else if (action === 'delete') {
-   await Greetings.deleteGreeting(message.jid, 'welcome');
-   return await message.reply('_Welcome message has been deleted successfully_');
-  } else {
-   await Greetings.setGreeting(message.jid, 'welcome', text);
-   return await message.reply('_Welcome message has been set successfully_');
-  }
- }
-);
-
-command(
- {
-  pattern: 'goodbye',
-  fromMe: true,
-  desc: 'Manage goodbye messages',
-  type: 'group',
- },
- async (message, match) => {
-  if (!message.isGroup) return await message.reply('This command can only be used in groups.');
-
-  const { prefix } = message;
-  const status = await Greetings.getGreetingStatus(message.jid, 'goodbye');
-  const stat = status ? 'on' : 'off';
-
-  if (!match) {
-   const replyMsg = `Goodbye Message Manager\n\nGroup: ${(await message.client.groupMetadata(message.jid)).subject}\nStatus: ${stat}\n\nAvailable Actions:\n\n- ${prefix}goodbye get: Get the current goodbye message\n- ${prefix}goodbye on: Enable goodbye message\n- ${prefix}goodbye off: Disable goodbye message\n- ${prefix}goodbye delete: Delete the goodbye message\n- ${prefix}goodbye <text>: Set a new goodbye message`;
-   return await message.reply(replyMsg);
-  }
-
-  const [action, ...args] = match.split(' ');
-  const text = args.join(' ');
-
-  if (action === 'get') {
-   const msg = await Greetings.getGreetingMessage(message.jid, 'goodbye');
-   if (!msg) return await message.reply('_There is no goodbye message set_');
-   const testMessage = await Greetings.formatMessage(msg.message, message);
-   return message.reply(`Current goodbye message:\n\n${testMessage}`);
-  } else if (action === 'on') {
-   if (status) return await message.reply('_Goodbye message is already enabled_');
-   await Greetings.toggleGreetingStatus(message.jid, 'goodbye');
-   return await message.reply('_Goodbye message has been enabled_');
-  } else if (action === 'off') {
-   if (!status) return await message.reply('_Goodbye message is already disabled_');
-   await Greetings.toggleGreetingStatus(message.jid, 'goodbye');
-   return await message.reply('_Goodbye message has been disabled_');
-  } else if (action === 'delete') {
-   await Greetings.deleteGreeting(message.jid, 'goodbye');
-   return await message.reply('_Goodbye message has been deleted successfully_');
-  } else {
-   await Greetings.setGreeting(message.jid, 'goodbye', text);
-   return await message.reply('_Goodbye message has been set successfully_');
   }
  }
 );
