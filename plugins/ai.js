@@ -53,7 +53,9 @@ handler(
 handler(
  {
   pattern: 'gemini',
+  alias: 'bard',
   desc: 'Chat with Google Gemini Ai',
+  type: 'ai',
  },
  async (message, match) => {
   if (!message.mode) return;
@@ -63,5 +65,23 @@ handler(
   const msg = await message.reply('_Thinking 🤔_');
   const res = await getJson(`https://api.giftedtech.my.id/api/ai/geminiai?apikey=astro_fx-k56DdhdS7@gifted_api&q=${encodeURIComponent(match)}`);
   return await msg.edit(res.result);
+ }
+);
+
+handler(
+ {
+  pattern: 'gpt4',
+  alias: 'gpt',
+  desc: 'Query OpenAi Gpt4 Model',
+  type: 'ai',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return await message.reply(ban);
+  const { sender, prefix } = message;
+  if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'gpt4 Which Ai Model are you_');
+  const msg = await message.reply('_Deep thought ✍️_');
+  const res = await getJson(`https://api.giftedtech.my.id/api/ai/gpt4?apikey=astro_fx-k56DdhdS7@gifted_api&q=${encodeURIComponent(match)}`);
+  return msg.edit(res.result);
  }
 );
