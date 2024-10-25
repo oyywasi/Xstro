@@ -1,5 +1,5 @@
 const { tiny, getFloor, Google } = require('xstro');
-const { handler, getJson } = require('../lib');
+const { handler, getJson, getRandomFact, getRandomQuote, fetchJoke } = require('../lib');
 const moment = require('moment');
 
 handler(
@@ -146,5 +146,45 @@ handler(
   const { Artist, Title, Lyrics } = res.result;
   const result = `🎶 *${Title}* by *${Artist}*\n\n${Lyrics}`;
   return await msg.edit(tiny(result));
+ }
+);
+
+handler(
+ {
+  pattern: 'fact',
+  desc: 'Get Joke',
+  type: 'search',
+ },
+ async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  return await message.send(getRandomFact());
+ }
+);
+
+handler(
+ {
+  pattern: 'quotes',
+  desc: 'Get Joke',
+  type: 'search',
+ },
+ async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  return await message.send(getRandomQuote());
+ }
+);
+
+handler(
+ {
+  pattern: 'joke',
+  desc: 'Get Joke',
+  type: 'search',
+ },
+ async (message) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  const joke = await fetchJoke();
+  return await message.send(joke);
  }
 );

@@ -1,6 +1,5 @@
 const { generateWAMessageFromContent } = require('baileys');
 const { handler, serialize, loadMessage, parsedJid } = require('../lib');
-const config = require('../config');
 
 handler(
  {
