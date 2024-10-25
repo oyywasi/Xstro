@@ -2,6 +2,21 @@ const { command, parsedJid, isAdmin } = require('../lib');
 
 command(
  {
+  pattern: 'join',
+  desc: 'Joins Group From Invite',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
+  if (!message.reply_message) return message.reply('_Reply An Invite link!_');
+  await client.groupAcceptInviteV4();
+ }
+);
+
+command(
+ {
   pattern: 'add',
   desc: 'Add a person to group',
   type: 'group',
@@ -326,6 +341,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const code = await client.groupInviteCode(message.jid);
   return await message.reply('_https://chat.whatsapp.com/' + code + '_');
  }
@@ -342,7 +359,49 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const newcode = await client.groupRevokeInvite(message.jid);
   return await message.reply('_Group Link Revoked!_\n_https://chat.whatsapp.com/' + newcode + '_');
+ }
+);
+
+command(
+ {
+  pattern: 'lock ?(.*)',
+  desc: "only allow admins to modify the group's settings",
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  const meta = await client.groupMetadata(message.jid);
+  if (meta.restrict) return await message.send('_Already only admin can modify group settings_');
+  await client.groupSettingUpdate(message.jid, 'locked');
+  return await message.send('*Only admin can modify group settings*');
+ }
+);
+
+command(
+ {
+  pattern: 'unlock ?(.*)',
+  desc: "allow everyone to modify the group's settings -- like display picture etc.",
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
+  const meta = await message.client.groupMetadata(message.jid);
+  if (!meta.restrict) return await message.send('_Already everyone can modify group settings_');
+  await client.groupSettingUpdate(message.jid, 'unlocked');
+  return await message.send('*Everyone can modify group settings*');
  }
 );
