@@ -10,7 +10,7 @@ command(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.reply_message.data);
   const res = await enhanceImage(req.buffer, 'enhance');
@@ -26,7 +26,7 @@ command(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.reply_message.data);
   const res = await enhanceImage(req.buffer, 'recolor');
@@ -42,7 +42,7 @@ command(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.reply_message.data);
   const res = await enhanceImage(req.buffer, 'dehaze');

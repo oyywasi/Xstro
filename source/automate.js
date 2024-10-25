@@ -11,7 +11,7 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antilink on_\n_' + message.prefix + 'antilink kick_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
@@ -65,7 +65,7 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong usage, try ' + message.prefix + 'antiword on_');
 
@@ -164,7 +164,7 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antispam on | off | kick | warn_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
@@ -354,7 +354,7 @@ command(
  async (message, match, m, client) => {
   if (!message.mode) return;
   if (!message.isGroup) return message.reply(group);
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antibot on | off | warn | kick_');
 

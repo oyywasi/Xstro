@@ -7,7 +7,7 @@ command(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const content = message.text;
@@ -48,7 +48,7 @@ command(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const content = message.text;

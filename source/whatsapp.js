@@ -106,7 +106,7 @@ command(
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!message.owner) return message.reply(owner);
   const targetJid = message.reply_message?.jid || message.jid || message.mention[0];
   return await message.send(targetJid);

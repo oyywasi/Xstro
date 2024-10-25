@@ -9,7 +9,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!match || !match.includes('x.com')) return message.reply('_Not Vaild Twitter URl!_');
   await message.reply('_Downloading_');
   const res = await twitter(match);
@@ -25,7 +25,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!match || !match.includes('drive.google.com')) return message.reply('_Not Vaild Google Drive Url!_');
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading file_');
@@ -42,7 +42,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!match || !match.includes('tiktok.com')) return message.reply('_Provide Vaild Tiktok URl_');
   if (!isUrl(match)) return message.reply('_Invaild Url!_');
   await message.reply('_Downloading!_');
@@ -60,7 +60,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!match || !match.includes('open.spotify.com')) return message.reply('_Not Vaild Spotify Url!_');
   if (!isUrl(match)) return message.reply('_Invaild Url_');
   const msg = await message.reply('_Downloading_');
@@ -78,7 +78,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
   const res = await getJson(`https://api.giftedtech.my.id/api/download/ytmp4?apikey=gifted&url=${match}`);
@@ -94,7 +94,7 @@ command(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
+  if (message.isban) return await message.reply(ban);
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
   const res = await getJson(`https://api.giftedtech.my.id/api/download/mp3?apikey=gifted&url=${match}`);
