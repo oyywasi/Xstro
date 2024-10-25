@@ -24,12 +24,17 @@ if (DB_URL === './database.db' || !DB_URL.startsWith('postgres://')) {
 
 module.exports = {
  BOT_INFO: process.env.BOT_INFO || 'Astro;Xstro',
- LOGS: process.env.LOGS || true,
+ LOG_MESSAGES: process.env.LOG_MESSAGES || true,
  SESSION_ID: process.env.SESSION_ID || '',
  PREFIX: process.env.HANDLER || '.',
  ANTI_CALL: process.env.ANTI_CALL || 'false',
  STICKER_PACK: process.env.STICKER_PACK || 'Astro;Xstro',
  WARN_COUNT: 3,
+ ADMIN_GROUP: process.env.ADMIN_GROUP || null,
+ GROUP_WELCOME: process.env.GROUP_WELCOME || 'welcome',
+ AUTO_READ: process.env.AUTO_READ || false,
+ DEBUG: process.env.DEBUG || 'silent',
+ MARK_ONLINE_ON_CONNECT: process.env.MARK_ONLINE_ON_CONNECT || false,
  SUDO: process.env.SUDO || '',
  AUTO_READ_MESSAGE: process.env.AUTO_READ || false,
  AUTO_STATUS_READ: process.env.AUTO_STATUS_READ || false,
