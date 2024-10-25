@@ -1,7 +1,8 @@
 const { command, parsedJid, isAdmin } = require('../lib');
 
-function extractUrl(text) {
- return (text.match(/(https?:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+)/g) || [])[0];
+function extractInviteCode(text) {
+ const match = text.match(/https?:\/\/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);
+ return match ? match[1] : null;
 }
 
 command(
@@ -16,10 +17,10 @@ command(
   if (!message.owner) return message.reply(owner);
   match = match || message.reply_message.text;
   if (!match) return await message.reply('_Enter a valid group link!_');
-  const groupLink = extractUrl(match);
-  if (!groupLink) return await message.reply('_Enter a valid group link!_');
+  const inviteCode = extractInviteCode(match);
+  if (!inviteCode) return await message.reply('_Enter a valid group link!_');
   try {
-   const joinResult = await client.groupAcceptInvite(groupLink);
+   const joinResult = await client.groupAcceptInvite(inviteCode);
    if (joinResult) return await message.reply('_Joined!_');
    await message.reply('_Invalid Group Link!_');
   } catch {
