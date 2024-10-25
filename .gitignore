@@ -134,4 +134,4 @@ database.db
 lib/session
 package-lock.json
 yarn.lock
-lib/temp
+temp

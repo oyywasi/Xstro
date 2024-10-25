@@ -14,3 +14,16 @@ handler(
   return await message.send(buffer, { caption: tiny('created by xstro') });
  }
 );
+
+handler(
+ {
+  pattern: 'trump',
+  desc: 'Create Fake Trump tweet',
+ },
+ async (message, match) => {
+  if (!match) return message.reply('_provide text_');
+  const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'trump.png'));
+  const { buffer } = buff;
+  return await message.send(buffer, { caption: tiny('created by xstro') });
+ }
+);
