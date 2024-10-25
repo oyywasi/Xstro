@@ -1,5 +1,5 @@
 const { enhanceImage } = require('xstro');
-const { handler } = require('../lib');
+const { handler, getJson } = require('../lib');
 
 handler(
  {
@@ -47,5 +47,19 @@ handler(
   const req = await message.download(message.reply_message.data);
   const res = await enhanceImage(req.buffer, 'dehaze');
   return await message.send(res);
+ }
+);
+
+handler(
+ {
+  pattern: 'gemini',
+  desc: 'Chat with Google Gemini Ai',
+ },
+ async (message, match) => {
+  const { sender, prefix } = message;
+  if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'Gemini What is life_');
+  const msg = await message.reply('_Thinking 🤔_');
+  const res = await getJson(`https://api.giftedtech.my.id/api/ai/geminiai?apikey=astro_fx-k56DdhdS7@gifted_api&q=${encodeURIComponent(match)}`);
+  return await msg.edit(res.result);
  }
 );
