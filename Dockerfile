@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:23-alpine
 RUN apk add --no-cache git python3 py3-pip build-base cairo-dev jpeg-dev pango-dev giflib-dev
 RUN ln -sf python3 /usr/bin/python
 WORKDIR /app
