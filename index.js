@@ -23,7 +23,7 @@ async function initialize() {
  console.log('Syncing Database');
  await config.DATABASE.sync();
  console.log('⬇  Installing Plugins...');
- await readAndRequireFiles(path.join(__dirname, '/source/'));
+ await readAndRequireFiles(path.join(__dirname, '/plugins/'));
  console.log('📑 Plugins Installed!');
  const Client = require('./lib/client');
  const bot = new Client();
