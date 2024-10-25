@@ -1,4 +1,4 @@
-const { command, parsedJid } = require('../lib');
+const { command, parsedJid, isAdmin } = require('../lib');
 
 function extractInviteCode(text) {
  const match = text.match(/https?:\/\/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);
@@ -42,7 +42,8 @@ command(
   if (!message.owner) return message.reply(owner);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to add_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'add');
   return await message.reply(`_@${jid[0].split('@')[0]} added_`, { mentions: [jid] });
@@ -62,7 +63,8 @@ command(
   if (!message.owner) return message.reply(owner);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to kick_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'remove');
   return await message.reply(`_@${jid[0].split('@')[0]} kicked_`, { mentions: [jid] });
@@ -82,7 +84,8 @@ command(
   if (!message.owner) return message.reply(owner);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to promote_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'promote');
   return await message.reply(`_@${jid[0].split('@')[0]} promoted to admin_`, { mentions: [jid] });
@@ -102,7 +105,8 @@ command(
   if (!message.owner) return message.reply(owner);
   match = match || message.reply_message.sender;
   if (!match) return await message.reply('_Mention a user to demote_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match);
   await client.groupParticipantsUpdate(message.jid, jid, 'demote');
   return await message.reply(`_@${jid[0].split('@')[0]} demoted from admin_`, { mentions: [jid] });
@@ -120,7 +124,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   await message.reply('_Muting the group_');
   return await client.groupSettingUpdate(message.jid, 'announcement');
  }
@@ -137,7 +142,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   await message.reply('_Unmuting the group_');
   return await client.groupSettingUpdate(message.jid, 'not_announcement');
  }
@@ -215,7 +221,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('_Provide a name to change the group name_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   await client.groupUpdateSubject(message.jid, match);
   return await message.reply(`_Group name changed to: ${match}_`);
  }
@@ -233,7 +240,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('_Provide a description to change the group description_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   await client.groupUpdateDescription(message.jid, match);
   return await message.reply('_Group description updated_');
  }
@@ -250,7 +258,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return await message.reply('admin');
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const requests = await client.groupRequestParticipantsList(message.jid);
   if (requests.length === 0) return await message.reply('_No pending join requests_');
   let requestList = 'Pending Join Requests:\n';
@@ -273,7 +282,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('_Provide the number or @tag of the request to accept_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match)[0];
   await client.groupRequestParticipantsUpdate(message.jid, [jid], 'approve');
   return await message.reply(`_Join request for @${jid.split('@')[0]} accepted_`, { mentions: [jid] });
@@ -292,7 +302,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('_Provide the number or @tag of the request to reject_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const jid = parsedJid(match)[0];
   await client.groupRequestParticipantsUpdate(message.jid, [jid], 'reject');
   return await message.reply(`_Join request for @${jid.split('@')[0]} rejected_`, { mentions: [jid] });
@@ -344,7 +355,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const code = await client.groupInviteCode(message.jid);
   return await message.reply('_https://chat.whatsapp.com/' + code + '_');
  }
@@ -361,7 +373,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const newcode = await client.groupRevokeInvite(message.jid);
   return await message.reply('_Group Link Revoked!_\n_https://chat.whatsapp.com/' + newcode + '_');
  }
@@ -378,7 +391,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const meta = await client.groupMetadata(message.jid);
   if (meta.restrict) return await message.send('_Already only admin can modify group settings_');
   await client.groupSettingUpdate(message.jid, 'locked');
@@ -397,7 +411,8 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isadmin = await isAdmin(message.jid, message.user, client);
+  if (!isadmin) return await message.reply("_I'm not admin_");
   const meta = await message.client.groupMetadata(message.jid);
   if (!meta.restrict) return await message.send('_Already everyone can modify group settings_');
   await client.groupSettingUpdate(message.jid, 'unlocked');

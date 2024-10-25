@@ -14,7 +14,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antilink on_\n_' + message.prefix + 'antilink kick_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isUserAdmin = await isAdmin(message.jid, message.user, client);
+  if (!isUserAdmin) return message.reply("_I'm not an admin._");
 
   const cmd = match.trim().toLowerCase();
   if (!cmd) {
@@ -67,7 +68,9 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong usage, try ' + message.prefix + 'antiword on_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+
+  const isUserAdmin = await isAdmin(message.jid, message.user, client);
+  if (!isUserAdmin) return message.reply("I'm not an admin.");
 
   const args = match
    .trim()
@@ -164,7 +167,8 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antispam on | off | kick | warn_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+  const isUserAdmin = await isAdmin(message.jid, message.user, client);
+  if (!isUserAdmin) return message.reply("_I'm not an admin._");
 
   const cmd = match.trim().toLowerCase();
   if (!cmd) {
@@ -353,7 +357,9 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antibot on | off | warn | kick_');
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply(admin);
+
+  const isUserAdmin = await isAdmin(message.jid, message.user, client);
+  if (!isUserAdmin) return message.reply("_I'm not an admin._");
 
   const cmd = match.trim().toLowerCase();
 
