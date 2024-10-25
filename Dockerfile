@@ -3,6 +3,6 @@ RUN apk add --no-cache git
 WORKDIR /app
 RUN git clone https://github.com/AstroX10/Xstro .
 COPY package*.json ./
-RUN npm install --production
+RUN npm install
 EXPOSE 8080
 CMD ["npm", "start"]
