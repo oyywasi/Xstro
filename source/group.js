@@ -250,7 +250,7 @@ command(
   if (!message.isGroup) return message.reply(group);
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  if (!m.isAdmin && !m.isBotAdmin) return message.reply('admin');
+  if (!m.isAdmin && !m.isBotAdmin) return await message.reply('admin');
   const requests = await client.groupRequestParticipantsList(message.jid);
   if (requests.length === 0) return await message.reply('_No pending join requests_');
   let requestList = 'Pending Join Requests:\n';
