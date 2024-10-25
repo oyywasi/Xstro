@@ -314,3 +314,19 @@ command(
   return await client.groupLeave(message.jid);
  }
 );
+
+command(
+ {
+  pattern: 'invite',
+  desc: 'Get Group Invite',
+  type: 'group',
+ },
+ async (message, match, m, client) => {
+  if (!message.mode) return;
+  if (!message.isGroup) return message.reply(group);
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
+  const code = await client.groupInviteCode(message.jid);
+  return await message.reply('_https://chat.whatsapp.com/' + code + '_');
+ }
+);
