@@ -56,6 +56,8 @@ handler(
   desc: 'Chat with Google Gemini Ai',
  },
  async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return await message.reply(ban);
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'Gemini What is life_');
   const msg = await message.reply('_Thinking 🤔_');
