@@ -13,7 +13,7 @@ command(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return await message.reply(ban);
+  if (message.isban) return await message.reply('you are banned');
   const msg = await message.reply('ᴄʜᴇᴄᴋɪɴɢ...');
   const updateInterval = 1000;
 
