@@ -343,6 +343,6 @@ command(
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   const newcode = await client.groupRevokeInvite(message.jid);
-  return await message.reply('_Group Link Revoked!_\n_' + newcode + '_');
+  return await message.reply('_Group Link Revoked!_\n_https://chat.whatsapp.com/' + newcode + '_');
  }
 );
