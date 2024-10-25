@@ -1,4 +1,4 @@
-const { enhanceImage, tiny } = require('xstro');
+const { enhanceImage, tiny, getBuffer } = require('xstro');
 const { handler, getJson } = require('../lib');
 
 handler(
@@ -97,7 +97,7 @@ handler(
   if (message.isban) return await message.reply(ban);
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'sd an image of ironman with batman_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/ai/sd?apikey=astro_fx-k56DdhdS7@gifted_api&prompt=${encodeURIComponent(match)}`);
+  const res = await getBuffer(`https://api.giftedtech.my.id/api/ai/sd?apikey=astro_fx-k56DdhdS7@gifted_api&prompt=${encodeURIComponent(match)}`);
   return await message.send(res, { contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363347500446894@newsletter', newsletterName: tiny(`stable diff`) } } });
  }
 );
