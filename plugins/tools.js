@@ -1,4 +1,4 @@
-const { handler } = require('../lib');
+const { handler, getJson } = require('../lib');
 const fs = require('fs');
 const path = require('path');
 const { upload, isUrl, ssweb } = require('xstro');
@@ -49,5 +49,18 @@ handler(
   if (!isUrl(match)) return message.reply('_Invaild Url_');
   const res = await ssweb(match);
   return await message.send(res);
+ }
+);
+
+handler(
+ {
+  pattern: 'fetch',
+  desc: 'Get Data From An Api',
+  type: 'tools',
+ },
+ async (message, match) => {
+  if (!isUrl(match)) return message.reply('_provide url_');
+  const res = await getJson(match);
+  return await message.reply(res);
  }
 );

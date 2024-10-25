@@ -29,7 +29,7 @@ handler(
   if (!match || !match.includes('drive.google.com')) return message.reply('_Not Vaild Google Drive Url!_');
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading file_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/gdrivedl?apikey=gifted&url=${match}`);
+  const res = await getJson(`https://api.giftedtech.my.id/api/download/gdrivedl?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
   return await message.send(res.result.download);
  }
 );
@@ -46,7 +46,7 @@ handler(
   if (!match || !match.includes('tiktok.com')) return message.reply('_Provide Vaild Tiktok URl_');
   if (!isUrl(match)) return message.reply('_Invaild Url!_');
   await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/tiktokdlv1?apikey=gifted&url=${encodeURIComponent(match)}`);
+  const res = await getJson(`https://api.giftedtech.my.id/api/download/tiktokdlv1?apikey=astro_fx-k56DdhdS7@gifted_api&url=${encodeURIComponent(match)}`);
   const { title, created_at, video } = res.result;
   return await message.send(video.noWatermark, { caption: `${title}\n${created_at}` });
  }
@@ -64,7 +64,7 @@ handler(
   if (!match || !match.includes('open.spotify.com')) return message.reply('_Not Vaild Spotify Url!_');
   if (!isUrl(match)) return message.reply('_Invaild Url_');
   const msg = await message.reply('_Downloading_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/spotifydl?apikey=gifted&url=${match}`);
+  const res = await getJson(`https://api.giftedtech.my.id/api/download/spotifydl?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
   await msg.edit('_Downloading ' + res.result.data.title + '_');
   return await message.send(res.result.data.preview);
  }
@@ -81,7 +81,7 @@ handler(
   if (message.isban) return message.reply(ban);
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/ytmp4?apikey=gifted&url=${match}`);
+  const res = await getJson(`https://api.giftedtech.my.id/api/download/ytmp4?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
   return await message.send(res.result.download_url, { caption: res.result.title });
  }
 );
@@ -97,7 +97,23 @@ handler(
   if (message.isban) return message.reply(ban);
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/mp3?apikey=gifted&url=${match}`);
+  const res = await getJson(`https://api.giftedtech.my.id/api/download/mp3?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
   return await message.send(res.result.download['.m4a'].download_url, { type: 'audio' });
+ }
+);
+
+handler(
+ {
+  pattern: 'pinterest',
+  desc: 'Get Pinterest Images',
+  type: 'download',
+ },
+ async (message, match) => {
+  if (!match) return message.reply('_provide me query_');
+  const res = await getJson(`https://ironman.koyeb.app/ironman/search/pinterest?q=${match}`);
+  const uniqueImages = [...new Set(res)].slice(1);
+  for (const image of uniqueImages) {
+   await message.send(image);
+  }
  }
 );

@@ -1,10 +1,9 @@
 const { tiny } = require('xstro');
-const { handler, commands, runtime } = require('../lib');
+const { handler, commands, runtime, getBuffer } = require('../lib');
 
 handler(
  {
   pattern: 'menu',
-  alias: 'help',
   description: 'Show All Commands',
   dontAddCommandList: true,
  },
@@ -77,5 +76,25 @@ handler(
    commandListText += `Use: \`\`\`${description}\`\`\`\n\n`;
   });
   return await message.reply(tiny(commandListText));
+ }
+);
+
+handler(
+ {
+  pattern: 'help',
+  desc: 'xstro support',
+  type: 'user',
+ },
+ async (message) => {
+  const name = tiny(`astro`),
+   title = tiny(`xstro support`),
+   number = '2348039607375',
+   body = tiny(`fx astro`);
+  const image = 'https://avatars.githubusercontent.com/u/183214515?v=4',
+   sourceUrl = 'https://github.com/AstroX10/Xstro';
+  const logo = await getBuffer(image);
+  const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nORG: made by astro;\nTEL;type=CELL;type=VOICE;waid=${number}:${number}\nEND:VCARD`;
+  const info = { title, body, thumbnail: logo, mediaType: 1, mediaUrl: sourceUrl, sourceUrl, showAdAttribution: true, renderLargerThumbnail: false };
+  await message.client.sendMessage(message.jid, { contacts: { displayName: name, contacts: [{ vcard }] }, contextInfo: { externalAdReply: info } }, { quoted: message });
  }
 );
