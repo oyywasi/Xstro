@@ -1,4 +1,4 @@
-const { enhanceImage } = require('xstro');
+const { enhanceImage, tiny } = require('xstro');
 const { handler, getJson } = require('../lib');
 
 handler(
@@ -83,5 +83,21 @@ handler(
   const msg = await message.reply('_Deep thought ✍️_');
   const res = await getJson(`https://api.giftedtech.my.id/api/ai/gpt4?apikey=astro_fx-k56DdhdS7@gifted_api&q=${encodeURIComponent(match)}`);
   return msg.edit(res.result);
+ }
+);
+
+handler(
+ {
+  pattern: 'sd',
+  desc: 'Generate Images from text',
+  type: 'ai',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return await message.reply(ban);
+  const { sender, prefix } = message;
+  if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'sd an image of ironman with batman_');
+  const res = await getJson(`https://api.giftedtech.my.id/api/ai/sd?apikey=astro_fx-k56DdhdS7@gifted_api&prompt=${encodeURIComponent(match)}`);
+  return await message.send(res, { contextInfo: { forwardingScore: 999, isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: '120363347500446894@newsletter', newsletterName: tiny(`stable diff`) } } });
  }
 );
