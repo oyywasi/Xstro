@@ -46,7 +46,7 @@ handler(
   Object.keys(categorized).forEach((category) => {
    menuText += `\n╭── *${category}* ────\n`;
    categorized[category].forEach((cmd) => {
-    menuText += `│ ${commandCounter}. ${cmd}\n`;
+    menuText += `│ *_${commandCounter}. ${cmd}_*\n`;
     commandCounter++;
    });
    menuText += `╰──────────────\n`;
