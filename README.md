@@ -4,13 +4,15 @@ Xstro Bot is a simple WhatsApp bot built with Baileys, designed for speed and ef
 
 ### SETUP
 
-1. Use Xstro Pair Geneator, for Xstro Base Only!
+1. Use Xstro Pair Geneator
+
    <br>
    <a href='https://astrox10.github.io/Xstro/' target="_blank"><img alt='SESSION' src='https://img.shields.io/badge/SESSION-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
 2. Keep Your Session ID Safe
 
 3. Need To Download Your Full Session for Panel ?
+
    <br>
    <a href='https://session-wd8n.onrender.com' target="_blank"><img alt='SESSION' src='https://img.shields.io/badge/PANEL SESSION-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
@@ -64,8 +66,6 @@ Xstro Bot is a simple WhatsApp bot built with Baileys, designed for speed and ef
 - As I have chosen to use the MIT license, I will not be held responsible for anything you use this project for.
 - I strongly condemn the misuse and abusive application of this project for any harmful actions and will not take responsibility for such behavior.
 - I, Astro Agba, will always be as free as a bird.
-
-For help visit [Github wiki](https://whatsapp.com/channel/0029VasMxnC7Noa3nZk9QA3G)
 
 ### LICENSE
 
