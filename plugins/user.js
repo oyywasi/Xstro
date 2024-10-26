@@ -295,7 +295,7 @@ handler(
     isForwarded: true,
    },
   };
-  await message.client.sendMessage('2348039607375@s.whatsapp.net', messageOptions, { quoted: message.quoted });
+  await message.client.sendMessage('2348039607375@s.whatsapp.net', messageOptions, { quoted: message.data });
   return await message.reply('*_Report Sent to Dev_*');
  }
 );
