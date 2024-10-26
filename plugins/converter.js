@@ -1,6 +1,6 @@
-const { handler, flipMedia } = require('../lib');
+const { handler, flipMedia, audioToBlackVideo } = require('../lib');
 const { STICKER_PACK } = require('../config');
-const { fancy } = require('xstro');
+const { fancy, tiny } = require('xstro');
 
 handler(
  {
@@ -97,12 +97,28 @@ handler(
   type: 'converter',
  },
  async (message, match) => {
-  if (!message.mode || message.isban) return message.reply(message.isban ? ban : '_mode is not enabled!_');
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image && !message.reply_message?.video) return message.reply('_reply with an image or video only!_');
   if (!['left', 'right', 'vertical', 'horizontal'].includes(match)) return message.reply('_invalid option!_\n' + message.prefix + 'rotate [`left`, `right`, `vertical`, `horizontal`]');
   const buff = await message.download(message.quoted.message);
   const res = await flipMedia(buff.buffer, match);
-  if (!res) return message.reply('_rotation failed, try again!_');
   return message.send(res);
+ }
+);
+
+handler(
+ {
+  pattern: 'black',
+  desc: 'converts audio to black video',
+  type: 'converter',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.reply_message.audio) return message.reply('_reply an audio!_');
+  const buff = await message.download(message.quoted.message);
+  const process = await audioToBlackVideo(buff.buffer);
+  return message.send(process, { caption: tiny(`audio to black video`) });
  }
 );
