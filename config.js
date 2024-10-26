@@ -28,6 +28,7 @@ module.exports = {
  SESSION_ID: process.env.SESSION_ID || '',
  PREFIX: process.env.HANDLER || '.',
  ANTI_CALL: process.env.ANTI_CALL || 'false',
+ USER_IMAGES: process.env.USER_IMAGES || '',
  STICKER_PACK: process.env.STICKER_PACK || 'Astro;Xstro',
  WARN_COUNT: 3,
  SUDO: process.env.SUDO || '',
