@@ -12,7 +12,7 @@ handler(
    if (!message.mode) return;
    if (!message.owner) return message.reply(owner);
    if (!message.reply_message) return message.reply('_Reply A ViewOnce Message!_');
-   const content = await message.download(message.reply_message.data);
+   const content = await message.download(message.quoted?.message);
    await message.send(content.buffer, { jid: message.participant });
    return message.reply('_Saved, Check your Dm Sir_');
   } catch {

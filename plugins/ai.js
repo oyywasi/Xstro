@@ -12,7 +12,7 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
-  const req = await message.download(message.reply_message.data);
+  const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'enhance');
   return await message.send(res);
  }
@@ -28,7 +28,7 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
-  const req = await message.download(message.reply_message.data);
+  const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'recolor');
   return await message.send(res);
  }
@@ -44,7 +44,7 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
-  const req = await message.download(message.reply_message.data);
+  const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'dehaze');
   return await message.send(res);
  }

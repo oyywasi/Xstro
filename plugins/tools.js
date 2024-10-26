@@ -30,7 +30,7 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image && !message.reply_message?.video && !message.reply_message?.audio) return message.reply('_Reply Image/Video/Audio_');
-  const media = await message.download(message.reply_message.data);
+  const media = await message.download(message.quoted?.message);
   const res = await upload(media.buffer);
   return await message.reply(res);
  }

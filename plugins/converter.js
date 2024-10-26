@@ -13,7 +13,7 @@ handler(
   if (message.isban) return message.reply(ban);
   const hasMedia = message.reply_message?.image || message.reply_message?.video;
   if (!hasMedia) return message.reply('_Reply an Image/Video_');
-  const content = await message.download(message.reply_message.data);
+  const content = await message.download(message.quoted?.message);
   return message.send(content.buffer, {
    type: 'sticker',
    author: STICKER_PACK.split(';')[0],
@@ -33,7 +33,7 @@ handler(
   if (message.isban) return message.reply(ban);
   const isStickerMedia = message.reply_message?.sticker;
   if (!isStickerMedia) return message.reply('_Reply A Sticker!_');
-  const newSticker = await message.download(message.reply_message.data);
+  const newSticker = await message.download(message.quoted?.message);
   return message.send(newSticker.buffer, {
    type: 'sticker',
    author: STICKER_PACK.split(';')[0],
@@ -53,7 +53,7 @@ handler(
   if (message.isban) return message.reply(ban);
   const res = message.reply_message?.video;
   if (!res) return message.reply('_Reply to a Sticker_');
-  const contentBuffer = await message.download(message.reply_message.data);
+  const contentBuffer = await message.download(message.quoted?.message);
   return await message.send(contentBuffer.buffer, { type: 'image' });
  }
 );
@@ -68,7 +68,7 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.reply_message?.video) return message.reply('_Reply Video Only!_');
-  const res = await message.download(message.reply_message.data);
+  const res = await message.download(message.quoted?.message);
   return message.send(res.buffer, { type: 'audio' });
  }
 );
