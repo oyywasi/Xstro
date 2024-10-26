@@ -4,7 +4,7 @@ Xstro Bot is a simple WhatsApp bot built with Baileys, designed for speed and ef
 
 ### SETUP
 
-1. Use Xstro Pair Geneator
+1. Use Xstro Pair Generator
    <br>
    <a href='https://astrox10.github.io/Xstro/' target="_blank"><img alt='SESSION' src='https://img.shields.io/badge/SESSION-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
