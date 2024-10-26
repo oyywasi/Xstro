@@ -137,24 +137,14 @@ handler(
    await message.reply('*Updating...*');
    exec('git stash && git pull origin master', async (err, stderr) => {
     if (err) return await message.reply('```' + stderr + '```');
-
-    await message.reply('*Checking dependencies...*');
-    const needsDependencyUpdate = await git.diff(['master..origin/master']).then(
-     (diff) => diff.includes('"dependencies":'),
-     () => false
-    );
-    const command = needsDependencyUpdate ? 'npm install && pm2 restart' : 'pm2 restart';
-    if (needsDependencyUpdate) {
-     await message.reply('*Installing new dependencies...*');
-    }
-    exec(command, (err, _, stderr) => {
+    await message.reply('*Restarting...*');
+    exec('pm2 restart', (err, _, stderr) => {
      if (err) return message.reply('```' + stderr + '```');
      message.reply('*Restart complete*');
     });
    });
   } else {
    let changes = '_New update available!_\n\n' + '*Commits:* ```' + commits.total + '```\n' + '*Changes:*\n' + commits.all.map((c, i) => '```' + (i + 1) + '. ' + c.message + '```').join('\n') + '\n*To update, send* ```' + message.prefix + 'update now```';
-
    await message.reply(changes);
   }
  }
