@@ -1,4 +1,4 @@
-const DB = require('../lib/sql/groupMessage');
+const { GroupMessageService } = require('../lib/sql/groupMessage');
 const { handler } = require('../lib');
 
 handler(
@@ -19,18 +19,18 @@ handler(
 
   switch (cmd) {
    case 'on':
-    await DB.toggleMessage(message.jid, 'welcome', true);
+    await GroupMessageService.toggleMessage(message.jid, 'welcome', true);
     return message.reply('Welcome messages enabled!');
 
    case 'off':
-    await DB.toggleMessage(message.jid, 'welcome', false);
+    await GroupMessageService.toggleMessage(message.jid, 'welcome', false);
     return message.reply('Welcome messages disabled!');
 
    case 'message':
     if (!customMessage) {
      return message.reply('Usage: .welcome on/off/message [custom message]\n' + 'Variables: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
     }
-    await DB.setMessage(message.jid, 'welcome', customMessage);
+    await GroupMessageService.setMessage(message.jid, 'welcome', customMessage);
     return message.reply('Welcome message updated!');
 
    default:
@@ -57,18 +57,18 @@ handler(
 
   switch (cmd) {
    case 'on':
-    await DB.toggleMessage(message.jid, 'goodbye', true);
+    await GroupMessageService.toggleMessage(message.jid, 'goodbye', true);
     return message.reply('Goodbye messages enabled!');
 
    case 'off':
-    await DB.toggleMessage(message.jid, 'goodbye', false);
+    await GroupMessageService.toggleMessage(message.jid, 'goodbye', false);
     return message.reply('Goodbye messages disabled!');
 
    case 'message':
     if (!customMessage) {
      return message.reply('Usage: .goodbye on/off/message [custom message]\n' + 'Variables: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
     }
-    await DB.setMessage(message.jid, 'goodbye', customMessage);
+    await GroupMessageService.setMessage(message.jid, 'goodbye', customMessage);
     return message.reply('Goodbye message updated!');
 
    default:
