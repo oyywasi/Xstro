@@ -236,9 +236,9 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.mode || !message.owner || !m.quoted) return await message.reply(!m.quoted ? 'Reply to a message to forward' : owner);
-  const quotedMessage = message.reply_message.quoted;
+  const quotedMessage = message?.quoted;
   const jids = parsedJid(match);
-  for (const jid of jids) await client.sendMessage(jid, { forward: quotedMessage, contextInfo: { forwardingScore: 999, isForwarded: true } }, { quoted: message.reply_message.quoted });
+  for (const jid of jids) await client.sendMessage(jid, { forward: quotedMessage, contextInfo: { forwardingScore: 999, isForwarded: true } }, { quoted: message?.quoted });
   return message.reply('*_Forwarded_*');
  }
 );
@@ -253,8 +253,8 @@ handler(
   if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   if (!m.quoted) return await message.reply('_Reply to a status message_');
-  const quotedMessage = message.reply_message.quoted;
-  await client.sendMessage(message.user, { forward: quotedMessage }, { quoted: message.reply_message.quoted });
+  const quotedMessage = message?.quoted;
+  await client.sendMessage(message.user, { forward: quotedMessage }, { quoted: message?.quoted });
  }
 );
 
