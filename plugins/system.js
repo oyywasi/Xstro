@@ -23,7 +23,7 @@ handler(
    const start = performance.now();
    await new Promise((resolve) => setTimeout(resolve, 20));
    const latency = (performance.now() - start).toFixed(5);
-   await msg.edit(`ʟᴀᴛᴇɴᴄʏ ${latency} secs`);
+   await msg.edit(`*_ʟᴀᴛᴇɴᴄʏ ${latency} secs_*`);
    await new Promise((resolve) => setTimeout(resolve, updateInterval));
   }
  }
