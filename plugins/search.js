@@ -1,4 +1,4 @@
-const { tiny, getFloor, Google } = require('xstro');
+const { tiny, getFloor, Google, onwhatsapp } = require('xstro');
 const { handler, getJson, getRandomFact, getRandomQuote, fetchJoke } = require('../lib');
 const moment = require('moment');
 
@@ -186,5 +186,21 @@ handler(
   if (message.isban) return message.reply(ban);
   const joke = await fetchJoke();
   return await message.send(joke);
+ }
+);
+
+handler(
+ {
+  pattern: 'onwa',
+  desc: 'check if a number is on whatsapp',
+  type: 'search',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!match) return message.reply('_provide a number without +_');
+  const msg = await message.reply('_checking numbers_');
+  const res = await onwhatsapp(match);
+  await msg.edit(res);
  }
 );
