@@ -1,4 +1,4 @@
-const { GroupMessageService } = require('../lib/sql/groupMessage');
+const DB = require('../lib/sql/GroupMessageService');
 const { handler } = require('../lib');
 
 handler(
@@ -6,35 +6,35 @@ handler(
   pattern: 'welcome',
   desc: 'Setup Welcome Messages for Group',
   type: 'group',
-  usage: '.welcome on/off/message [custom message]',
+  usage: '.welcome on/off/get [custom message]',
  },
- async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
-  if (!message.isGroup) return message.reply(group);
-  if (!m.isAdmin) return message.reply(admin);
+ async (message, match, m) => {
+  if (!message.isGroup) return message.reply('This command is for groups only.');
+  if (!m.isAdmin) return message.reply('Only admins can modify welcome settings.');
 
   const [cmd, ...args] = match.split(' ');
   const customMessage = args.join(' ');
 
   switch (cmd) {
    case 'on':
-    await GroupMessageService.toggleMessage(message.jid, 'welcome', true);
+    await DB.toggleMessage(message.jid, 'welcome', true);
     return message.reply('Welcome messages enabled!');
 
    case 'off':
-    await GroupMessageService.toggleMessage(message.jid, 'welcome', false);
+    await DB.toggleMessage(message.jid, 'welcome', false);
     return message.reply('Welcome messages disabled!');
 
-   case 'message':
-    if (!customMessage) {
-     return message.reply('Usage: .welcome on/off/message [custom message]\n' + 'Variables: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
-    }
-    await GroupMessageService.setMessage(message.jid, 'welcome', customMessage);
-    return message.reply('Welcome message updated!');
+   case 'get':
+    const welcomeConfig = await DB.getMessage(message.jid, 'welcome');
+    return message.reply(welcomeConfig ? `Current Welcome Message: ${welcomeConfig.message}` : 'No custom welcome message set.');
 
    default:
-    return message.reply('Invalid command. Use .welcome on/off/message [custom message]');
+    if (customMessage) {
+     await DB.setMessage(message.jid, 'welcome', customMessage);
+     return message.reply('Custom welcome message set!');
+    } else {
+     return message.reply('Usage: .welcome on/off/get [custom message]\n' + 'Placeholders: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
+    }
   }
  }
 );
@@ -44,35 +44,35 @@ handler(
   pattern: 'goodbye',
   desc: 'Setup Goodbye Messages for Group',
   type: 'group',
-  usage: '.goodbye on/off/message [custom message]',
+  usage: '.goodbye on/off/get [custom message]',
  },
- async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
-  if (!message.isGroup) return message.reply(group);
-  if (!m.isAdmin) return message.reply(admin);
+ async (message, match, m) => {
+  if (!message.isGroup) return message.reply('This command is for groups only.');
+  if (!m.isAdmin) return message.reply('Only admins can modify goodbye settings.');
 
   const [cmd, ...args] = match.split(' ');
   const customMessage = args.join(' ');
 
   switch (cmd) {
    case 'on':
-    await GroupMessageService.toggleMessage(message.jid, 'goodbye', true);
+    await DB.toggleMessage(message.jid, 'goodbye', true);
     return message.reply('Goodbye messages enabled!');
 
    case 'off':
-    await GroupMessageService.toggleMessage(message.jid, 'goodbye', false);
+    await DB.toggleMessage(message.jid, 'goodbye', false);
     return message.reply('Goodbye messages disabled!');
 
-   case 'message':
-    if (!customMessage) {
-     return message.reply('Usage: .goodbye on/off/message [custom message]\n' + 'Variables: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
-    }
-    await GroupMessageService.setMessage(message.jid, 'goodbye', customMessage);
-    return message.reply('Goodbye message updated!');
+   case 'get':
+    const goodbyeConfig = await DB.getMessage(message.jid, 'goodbye');
+    return message.reply(goodbyeConfig ? `Current Goodbye Message: ${goodbyeConfig.message}` : 'No custom goodbye message set.');
 
    default:
-    return message.reply('Invalid command. Use .goodbye on/off/message [custom message]');
+    if (customMessage) {
+     await DB.setMessage(message.jid, 'goodbye', customMessage);
+     return message.reply('Custom goodbye message set!');
+    } else {
+     return message.reply('Usage: .goodbye on/off/get [custom message]\n' + 'Placeholders: @user, @gname, @gdesc, @botname, @members, @admins, @runtime, &quotes, &facts');
+    }
   }
  }
 );
