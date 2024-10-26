@@ -31,6 +31,7 @@ handler(
 │ Version: ${require('../package.json').version}
 ╰────────────────\`\`\`\n`;
 
+  let commandCounter = 1;
   const categorized = commands
    .filter((cmd) => cmd.pattern && !cmd.dontAddCommandList)
    .map((cmd) => ({
@@ -43,7 +44,12 @@ handler(
    }, {});
 
   Object.keys(categorized).forEach((category) => {
-   menuText += `\n╭── *${category}* ────\n│ ${categorized[category].join('\n│ ')}\n╰──────────────\n`;
+   menuText += `\n╭── *${category}* ────\n`;
+   categorized[category].forEach((cmd) => {
+    menuText += `│ ${commandCounter}. ${cmd}\n`;
+    commandCounter++;
+   });
+   menuText += `╰──────────────\n`;
   });
   return await message.send(tiny(menuText));
  }
@@ -58,7 +64,7 @@ handler(
  async (message) => {
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
-  let commandListText = '*about commands*\n';
+  let commandListText = '*about commands*\n\n';
   const commandList = [];
   commands.forEach((command) => {
    if (command.pattern && !command.dontAddCommandList) {
@@ -72,7 +78,7 @@ handler(
   });
   commandList.sort((a, b) => a.name.localeCompare(b.name));
   commandList.forEach(({ name, description }, index) => {
-   commandListText += `\`\`\`${index + 1} ${name.trim()}\`\`\`\n`;
+   commandListText += `\`\`\`${index + 1}. ${name.trim()}\`\`\`\n`;
    commandListText += `Use: \`\`\`${description}\`\`\`\n\n`;
   });
   return await message.reply(tiny(commandListText));
