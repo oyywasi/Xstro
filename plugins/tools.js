@@ -13,9 +13,11 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   const tempPath = path.join(__dirname, '..', 'temp');
+  const calculateFolderSize = (folderPath) => fs.readdirSync(folderPath).reduce((total, file) => total + fs.statSync(path.join(folderPath, file)).size, 0);
   const clearFiles = (folderPath) => fs.readdirSync(folderPath).forEach((file) => fs.unlinkSync(path.join(folderPath, file)));
+  const sizeBeforeClear = calculateFolderSize(tempPath);
   clearFiles(tempPath);
-  return await message.reply('_Cache Cleared_');
+  return await message.reply(`_Cache cleared with ${sizeBeforeClear} bytes._`);
  }
 );
 
