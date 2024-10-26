@@ -10,7 +10,7 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
-  if (messageisban) return message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.isGroup) return message.reply(group);
   if (!m.isAdmin) return message.reply(admin);
 
@@ -46,7 +46,7 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
-  if (messageisban) return message.reply(ban);
+  if (message.isban) return message.reply(ban);
   if (!message.isGroup) return message.reply(group);
   if (!m.isAdmin) return message.reply(admin);
   const [cmd, ...args] = match.split(' ');
