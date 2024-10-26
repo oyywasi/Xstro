@@ -20,10 +20,10 @@ handler(
   const updateInterval = 1000;
 
   for (let i = 0; i < 10; i++) {
-   const start = new Date().getTime();
+   const start = performance.now();
    await new Promise((resolve) => setTimeout(resolve, 20));
-   const latency = new Date().getTime() - start;
-   await msg.edit(`ʟᴀᴛᴇɴᴄʏ ${latency} ᴍs`);
+   const latency = (performance.now() - start).toFixed(5);
+   await msg.edit(`ʟᴀᴛᴇɴᴄʏ ${latency} secs`);
    await new Promise((resolve) => setTimeout(resolve, updateInterval));
   }
  }
