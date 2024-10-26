@@ -44,14 +44,14 @@ handler(
    }, {});
 
   Object.keys(categorized).forEach((category) => {
-   menuText += `\n╭── *${category}* ────\n`;
+   menuText += tiny(`\n╭── *${category}* ────\n`);
    categorized[category].forEach((cmd) => {
-    menuText += `│ *_${commandCounter}. ${cmd}_*\n`;
+    menuText += tiny(`│ *_${commandCounter}. ${cmd}_*\n`);
     commandCounter++;
    });
-   menuText += `╰──────────────\n`;
+   menuText += tiny(`╰──────────────\n`);
   });
-  return await message.send(tiny(menuText));
+  return await message.send(menuText);
  }
 );
 
