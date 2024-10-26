@@ -1,8 +1,10 @@
-const { handler, runtime } = require('../lib');
-const { spawn, exec } = require('child_process');
 const path = require('path');
 const os = require('os');
 const { tiny } = require('xstro');
+const { handler, runtime } = require('../lib');
+const { spawn, exec } = require('child_process');
+const simplegit = require('simple-git');
+const git = simplegit();
 
 handler(
  {
@@ -115,5 +117,45 @@ handler(
   if (message.isban) return message.reply(ban);
   const uptime = await runtime(process.uptime());
   return await message.send(tiny(`Running Since ${uptime}`));
+ }
+);
+
+handler(
+ {
+  pattern: 'update',
+  desc: 'Update the bot',
+  type: 'system',
+ },
+ async (message, match) => {
+  if (!message.mode) return;
+  if (message.isban) return message.reply(ban);
+  if (!message.owner) return message.reply(owner);
+  await git.fetch();
+  const commits = await git.log(['master..origin/master']);
+  if (commits.total === 0) return await message.reply('```No changes in the latest commit```');
+  if (match === 'now') {
+   await message.reply('*Updating...*');
+   exec('git stash && git pull origin master', async (err, stderr) => {
+    if (err) return await message.reply('```' + stderr + '```');
+
+    await message.reply('*Checking dependencies...*');
+    const needsDependencyUpdate = await git.diff(['master..origin/master']).then(
+     (diff) => diff.includes('"dependencies":'),
+     () => false
+    );
+    const command = needsDependencyUpdate ? 'npm install && pm2 restart' : 'pm2 restart';
+    if (needsDependencyUpdate) {
+     await message.reply('*Installing new dependencies...*');
+    }
+    exec(command, (err, _, stderr) => {
+     if (err) return message.reply('```' + stderr + '```');
+     message.reply('*Restart complete*');
+    });
+   });
+  } else {
+   let changes = '_New update available!_\n\n' + '*Commits:* ```' + commits.total + '```\n' + '*Changes:*\n' + commits.all.map((c, i) => '```' + (i + 1) + '. ' + c.message + '```').join('\n') + '\n*To update, send* ```' + message.prefix + 'update now```';
+
+   await message.reply(changes);
+  }
  }
 );
