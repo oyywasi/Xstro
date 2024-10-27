@@ -1,5 +1,16 @@
-const { twitter, isUrl } = require('xstro');
+const { twitter } = require('xstro');
 const { handler, getJson } = require('../lib');
+
+const BASE_URL = 'https://api.giftedtech.my.id/api/download';
+const API_KEY = 'astro_fx-k56DdhdS7@gifted_api';
+
+const getMedia = async (message, match, endpoint, downloadMsg = '_Downloading!_', customValidator) => {
+ const targetUrl = match || message.reply_message?.text;
+ if (customValidator && !customValidator(targetUrl)) return message.reply('_Invalid URL!_');
+ await message.reply(downloadMsg);
+ const res = await getJson(`${BASE_URL}/${endpoint}?apikey=${API_KEY}&url=${encodeURIComponent(targetUrl)}`);
+ return res;
+};
 
 handler(
  {
@@ -8,9 +19,8 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!match || !match.includes('x.com')) return message.reply('_Not Vaild Twitter URl!_');
-  await message.reply('_Downloading_');
-  const res = await twitter(match);
+  if (!match || !match.includes('x.com')) return message.reply('_Not a valid Twitter URL!_');
+  const res = await twitter(match || message.reply_message?.text);
   return await message.send(res);
  }
 );
@@ -18,14 +28,11 @@ handler(
 handler(
  {
   pattern: 'drive',
-  desc: 'downloads documents from Google Drive URl',
+  desc: 'downloads documents from Google Drive URL',
   type: 'download',
  },
  async (message, match) => {
-  if (!match || !match.includes('drive.google.com')) return message.reply('_Not Vaild Google Drive Url!_');
-  if (!isUrl(match)) return message.reply('_Inavild Url!_');
-  await message.reply('_Downloading file_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/gdrivedl?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
+  const res = await getMedia(message, match, 'gdrivedl', '_Downloading file_', (url) => url.includes('drive.google.com'));
   return await message.send(res.result.download);
  }
 );
@@ -33,14 +40,11 @@ handler(
 handler(
  {
   pattern: 'tiktok',
-  desc: 'downloads tiktok vidoes',
+  desc: 'downloads TikTok videos',
   type: 'download',
  },
  async (message, match) => {
-  if (!match || !match.includes('tiktok.com')) return message.reply('_Provide Vaild Tiktok URl_');
-  if (!isUrl(match)) return message.reply('_Invaild Url!_');
-  await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/tiktokdlv1?apikey=astro_fx-k56DdhdS7@gifted_api&url=${encodeURIComponent(match)}`);
+  const res = await getMedia(message, match, 'tiktokdlv1', '_Downloading!_', (url) => url.includes('tiktok.com'));
   const { title, created_at, video } = res.result;
   return await message.send(video.noWatermark, { caption: `${title}\n${created_at}` });
  }
@@ -49,15 +53,12 @@ handler(
 handler(
  {
   pattern: 'spotify',
-  desc: 'downloads spotify music',
+  desc: 'downloads Spotify music',
   type: 'download',
  },
  async (message, match) => {
-  if (!match || !match.includes('open.spotify.com')) return message.reply('_Not Vaild Spotify Url!_');
-  if (!isUrl(match)) return message.reply('_Invaild Url_');
-  const msg = await message.reply('_Downloading_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/spotifydl?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
-  await msg.edit('_Downloading ' + res.result.data.title + '_');
+  const res = await getMedia(message, match, 'spotifydl', '_Downloading_', (url) => url.includes('open.spotify.com'));
+  await message.reply('_Downloading ' + res.result.data.title + '_');
   return await message.send(res.result.data.preview);
  }
 );
@@ -65,13 +66,11 @@ handler(
 handler(
  {
   pattern: 'ytmp4',
-  desc: 'download youtube video mp4',
+  desc: 'download YouTube video mp4',
   type: 'download',
  },
  async (message, match) => {
-  if (!isUrl(match)) return message.reply('_Inavild Url!_');
-  await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/ytmp4?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
+  const res = await getMedia(message, match, 'ytmp4');
   return await message.send(res.result.download_url, { caption: res.result.title });
  }
 );
@@ -79,13 +78,11 @@ handler(
 handler(
  {
   pattern: 'ytmp3',
-  desc: 'download youtube videos mp3',
+  desc: 'download YouTube videos mp3',
   type: 'download',
  },
  async (message, match) => {
-  if (!isUrl(match)) return message.reply('_Inavild Url!_');
-  await message.reply('_Downloading!_');
-  const res = await getJson(`https://api.giftedtech.my.id/api/download/mp3?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
+  const res = await getMedia(message, match, 'mp3');
   return await message.send(res.result.download['.m4a'].download_url, { type: 'audio' });
  }
 );
@@ -97,8 +94,8 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!match) return message.reply('_provide me query_');
-  const res = await getJson(`https://ironman.koyeb.app/ironman/search/pinterest?q=${match}`);
+  if (!match) return message.reply('_Provide a query_');
+  const res = await getJson(`https://ironman.koyeb.app/ironman/search/pinterest?q=${encodeURIComponent(match)}`);
   const uniqueImages = [...new Set(res)].slice(1);
   for (const image of uniqueImages) {
    await message.send(image);
