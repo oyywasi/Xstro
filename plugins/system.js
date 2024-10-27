@@ -1,8 +1,7 @@
-const path = require('path');
 const os = require('os');
 const { tiny } = require('xstro');
+const { exec } = require('child_process');
 const { handler, runtime, manageVar } = require('../lib');
-const { spawn, exec } = require('child_process');
 const simplegit = require('simple-git');
 const git = simplegit();
 
@@ -35,12 +34,7 @@ handler(
  },
  async (message) => {
   await message.reply('Restarting the bot...');
-  const filePath = path.resolve(__dirname, '..', 'index.js');
-  spawn(process.execPath, [filePath], {
-   detached: true,
-   stdio: 'inherit',
-  });
-  process.exit();
+  await exec(require('../package.json').scripts.start);
  }
 );
 
@@ -126,7 +120,7 @@ handler(
     });
    });
   } else {
-   let changes = '_New update available!_\n\n' + '*Commits:* ```' + commits.total + '```\n' + '*Changes:*\n' + commits.all.map((c, i) => '```' + (i + 1) + '. ' + c.message + '```').join('\n') + '\n*To update, send* ```' + message.prefix + 'update now```';
+   let changes = '_New update available!_\n\n' + '*Patches:* ```' + commits.total + '```\n' + '*Changes:*\n' + commits.all.map((c, i) => '```' + (i + 1) + '. ' + c.message + '```').join('\n') + '\n*To update, send* ```' + message.prefix + 'update now```';
    await message.reply(changes);
   }
  }
@@ -152,6 +146,7 @@ handler(
  {
   pattern: 'delvar',
   desc: 'Delete system var',
+  type: 'system',
  },
  async (message) => {
   if (!message.owner) return message.reply(owner);
@@ -166,6 +161,7 @@ handler(
  {
   pattern: 'getvar',
   desc: 'Get system vars',
+  type: 'system',
  },
  async (message) => {
   const vars = await manageVar('getAll');
