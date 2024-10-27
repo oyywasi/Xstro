@@ -155,6 +155,7 @@ function cleanUserId(userId) {
 handler(
  {
   pattern: 'setsudo',
+  alias: 'addsudo',
   desc: 'Set Sudo Numbers For the Bot',
   type: 'user',
  },
@@ -162,9 +163,10 @@ handler(
   if (!message.mode) return;
   if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
-  const sudoId = message.reply_message?.sender || message.mention[0];
-  if (!sudoId) return message.reply('_Reply to someone or mention them_');
-
+  const sudoId = message.reply_message?.sender || message.mention?.[0];
+  if (!sudoId) return message.reply('_Reply to someone or mention them._');
+  if (message.isban?.includes(sudoId)) return message.reply('_You cannot set a banned user as sudo._');
+  if ([message.user].includes(sudoId)) return message.reply('_You cannot set yourself as sudo, you already own the bot._');
   const cleanedId = cleanUserId(sudoId);
   await addSudo(cleanedId);
   message.reply(`_User @${cleanedId} has been added as sudo._`, { mentions: [sudoId] });
