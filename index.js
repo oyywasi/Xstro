@@ -34,4 +34,4 @@ async function initialize() {
 
 initialize();
 
-app.listen(config.PORT, () => console.log(`SERVER TO PORT 8000`));
+app.listen(config.PORT, () => console.log(`DB SYNC`));
