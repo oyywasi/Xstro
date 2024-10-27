@@ -147,9 +147,9 @@ handler(
  },
  async (message) => {
   const key = message.text.trim();
-  if (!key) return message.reply('*_Provide a variable name to delete._*');
+  if (!key) return message.reply('_Provide a variable name to delete._');
   await manageVar({ command: 'del', key });
-  return message.reply(`_✓ Deleted ${key} from env_`);
+  return message.reply(`✓ Deleted ${key} from env`);
  }
 );
 
