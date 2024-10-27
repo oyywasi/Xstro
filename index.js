@@ -1,7 +1,12 @@
+const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const config = require('./config');
 const { initSession } = require('./lib/session');
+
+const app = express();
+app.use(express.static('./media/web/express'));
+
 async function readAndRequireFiles(directory) {
  const files = await fs.readdir(directory);
  return await Promise.all(
@@ -11,9 +16,7 @@ async function readAndRequireFiles(directory) {
     try {
      return require(path.join(directory, file));
     } catch (error) {
-     const filePath = path.join(directory, file);
-     const errorLocation = error.stack.split('\n')[1].trim();
-     console.error(`Error in file: ${filePath}\nError at: ${errorLocation}`);
+     console.error(`Error in file: ${path.join(directory, file)}\n${error.stack.split('\n')[1].trim()}`);
     }
    })
  );
@@ -21,15 +24,14 @@ async function readAndRequireFiles(directory) {
 
 async function initialize() {
  await readAndRequireFiles(path.join(__dirname, '/lib/sql/'));
- console.log('Syncing Database');
  await config.DATABASE.sync();
- console.log('⬇  Installing Plugins...');
  await readAndRequireFiles(path.join(__dirname, '/plugins/'));
- console.log('📑 Plugins Installed!');
  await initSession(config.SESSION_ID.trim());
  const Client = require('./lib/client');
  const bot = new Client();
- return bot.connect();
+ bot.connect();
 }
 
 initialize();
+
+app.listen(config.PORT, () => console.log(`SERVER TO PORT 8000`));

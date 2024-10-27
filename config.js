@@ -23,21 +23,20 @@ if (DB_URL === './database.db' || !DB_URL.startsWith('postgres://')) {
 }
 
 module.exports = {
+ SESSION_ID: process.env.SESSION_ID || '',
+ SUDO: process.env.SUDO || '' || null,
+ PREFIX: process.env.HANDLER || '.',
  BOT_INFO: process.env.BOT_INFO || 'Astro;Xstro',
  LOGS: process.env.LOGS || true,
- SESSION_ID: process.env.SESSION_ID || '',
- PREFIX: process.env.HANDLER || '.',
  ANTI_CALL: process.env.ANTI_CALL || 'false',
  USER_IMAGES: process.env.USER_IMAGES || '',
  STICKER_PACK: process.env.STICKER_PACK || 'Astro;Xstro',
  WARN_COUNT: 3,
- SUDO: process.env.SUDO || '',
  AUTO_READ_MESSAGE: process.env.AUTO_READ || false,
  AUTO_STATUS_READ: process.env.AUTO_STATUS_READ || false,
  PRESENCE_UPDATE: process.env.PRESENCE_UPDATE || 'available',
- ANTI_DELETE: process.env.ANTI_DELETE || true,
- ANTI_DELETE_ENABLED: process.env.ANTI_DELETE_ENABLED || true,
  MODE: process.env.MODE || 'private',
+ PORT: process.env.PORT || 8000,
  DATABASE_URL: DB_URL,
  DATABASE: sequelize,
 };
