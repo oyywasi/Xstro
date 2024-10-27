@@ -130,6 +130,7 @@ handler(
  {
   pattern: 'setvar',
   desc: 'Set system var',
+  type: 'system',
  },
  async (message, match) => {
   if (!match) return message.reply('Invalid format. Use: .setvar KEY:VALUE');
@@ -145,6 +146,7 @@ handler(
  {
   pattern: 'delvar',
   desc: 'Delete system var',
+  type: 'system',
  },
  async (message, match) => {
   if (!match) return message.reply('Please provide a variable name to delete');
@@ -158,6 +160,7 @@ handler(
  {
   pattern: 'getvar',
   desc: 'Get system vars',
+  type: 'system',
  },
  async (message) => {
   const vars = await manageVar({ command: 'get' });
