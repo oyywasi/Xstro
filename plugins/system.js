@@ -130,15 +130,13 @@ handler(
  {
   pattern: 'setvar',
   desc: 'Set system var',
-  type: 'system',
  },
  async (message) => {
-  if (!message.owner) return message.reply(owner);
   const input = message.text.split(':');
   if (input.length !== 2) return message.reply('Invalid format. Use: .setvar KEY:VALUE');
   const [key, value] = input.map((item) => item.trim());
-  await manageVar('set', key, value);
-  return message.reply(`✓ Successfully set ${key}=${value}`);
+  await manageVar({ command: 'set', key, value });
+  return message.reply(`_✓ Variable set: ${key}=${value}_`);
  }
 );
 
@@ -146,14 +144,12 @@ handler(
  {
   pattern: 'delvar',
   desc: 'Delete system var',
-  type: 'system',
  },
  async (message) => {
-  if (!message.owner) return message.reply(owner);
   const key = message.text.trim();
-  if (!key) return message.reply('Please provide a variable name to delete');
-  await manageVar('delete', key);
-  return message.reply(`✓ Successfully deleted ${key}`);
+  if (!key) return message.reply('*_Provide a variable name to delete._*');
+  await manageVar({ command: 'del', key });
+  return message.reply(`_✓ Deleted ${key} from env_`);
  }
 );
 
@@ -161,13 +157,9 @@ handler(
  {
   pattern: 'getvar',
   desc: 'Get system vars',
-  type: 'system',
  },
  async (message) => {
-  const vars = await manageVar('getAll');
-  const formattedVars = Object.entries(vars)
-   .map(([key, value]) => `▢ ${key}: ${value}`)
-   .join('\n');
-  return message.reply(formattedVars || 'No environment variables found');
+  const vars = await manageVar({ command: 'get' });
+  return message.reply(vars || 'No variables found');
  }
 );
