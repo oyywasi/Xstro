@@ -1,7 +1,7 @@
 const path = require('path');
 const os = require('os');
 const { tiny } = require('xstro');
-const { handler, runtime } = require('../lib');
+const { handler, runtime, manageVar } = require('../lib');
 const { spawn, exec } = require('child_process');
 const simplegit = require('simple-git');
 const git = simplegit();
@@ -129,5 +129,49 @@ handler(
    let changes = '_New update available!_\n\n' + '*Commits:* ```' + commits.total + '```\n' + '*Changes:*\n' + commits.all.map((c, i) => '```' + (i + 1) + '. ' + c.message + '```').join('\n') + '\n*To update, send* ```' + message.prefix + 'update now```';
    await message.reply(changes);
   }
+ }
+);
+
+handler(
+ {
+  pattern: 'setvar',
+  desc: 'Set system var',
+  type: 'system',
+ },
+ async (message) => {
+  if (!message.owner) return message.reply(owner);
+  const input = message.text.split(':');
+  if (input.length !== 2) return message.reply('Invalid format. Use: .setvar KEY:VALUE');
+  const [key, value] = input.map((item) => item.trim());
+  await manageVar('set', key, value);
+  return message.reply(`✓ Successfully set ${key}=${value}`);
+ }
+);
+
+handler(
+ {
+  pattern: 'delvar',
+  desc: 'Delete system var',
+ },
+ async (message) => {
+  if (!message.owner) return message.reply(owner);
+  const key = message.text.trim();
+  if (!key) return message.reply('Please provide a variable name to delete');
+  await manageVar('delete', key);
+  return message.reply(`✓ Successfully deleted ${key}`);
+ }
+);
+
+handler(
+ {
+  pattern: 'getvar',
+  desc: 'Get system vars',
+ },
+ async (message) => {
+  const vars = await manageVar('getAll');
+  const formattedVars = Object.entries(vars)
+   .map(([key, value]) => `▢ ${key}: ${value}`)
+   .join('\n');
+  return message.reply(formattedVars || 'No environment variables found');
  }
 );
