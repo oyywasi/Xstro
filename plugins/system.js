@@ -131,12 +131,13 @@ handler(
   pattern: 'setvar',
   desc: 'Set system var',
  },
- async (message) => {
-  const input = message.text.split(':');
+ async (message, match) => {
+  if (!match) return message.reply('Invalid format. Use: .setvar KEY:VALUE');
+  const input = match.split(':');
   if (input.length !== 2) return message.reply('Invalid format. Use: .setvar KEY:VALUE');
   const [key, value] = input.map((item) => item.trim());
   await manageVar({ command: 'set', key, value });
-  return message.reply(`_✓ Variable set: ${key}=${value}_`);
+  return message.reply(`✓ Variable set: ${key}=${value}`);
  }
 );
 
@@ -145,9 +146,9 @@ handler(
   pattern: 'delvar',
   desc: 'Delete system var',
  },
- async (message) => {
-  const key = message.text.trim();
-  if (!key) return message.reply('_Provide a variable name to delete._');
+ async (message, match) => {
+  if (!match) return message.reply('Please provide a variable name to delete');
+  const key = match.trim();
   await manageVar({ command: 'del', key });
   return message.reply(`✓ Deleted ${key} from env`);
  }
