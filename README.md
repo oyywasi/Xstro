@@ -8,7 +8,9 @@ Xstro Bot is a simple WhatsApp bot built with Baileys, designed for speed and ef
    <br>
    <a href='https://astrox10.github.io/Xstro/' target="_blank"><img alt='SESSION' src='https://img.shields.io/badge/SESSION-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
-2. Keep Your Session ID Safe
+2. Fork Your Copy
+   <br>
+   <a href='https://github.com/AstroX10/Xstro/fork' target="_blank"><img alt='SESSION' src='https://img.shields.io/badge/FORK REPO-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
 3. Need To Download Your Full Session for Panel ?
    <br>
