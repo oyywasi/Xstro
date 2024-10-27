@@ -219,14 +219,17 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
-  if (!message.owner) return message.reply(owner);
-  const userId = message.mention[0] || message.reply_message?.sender;
-  if (!userId) return message.reply('_Mention or reply to someone_');
+  if (message.isban) return message.reply('_User is already banned._');
+  if (!message.owner) return message.reply('_Only the owner can perform this action._');
+  const userId = message.mention?.[0] || message.reply_message?.sender;
+  if (!userId) return message.reply('_Please mention a user or reply to a message._');
+  if ([message.user, message.sudo].includes(userId)) return message.reply("_You can't ban yourself or a sudo user._");
   const existingBan = await getBan(userId);
   if (existingBan) return message.reply('_This user is already banned._');
   await banUser(userId);
-  message.reply(`_User @${userId.split('@')[0]} has been banned from using the bot._`, { mentions: [userId] });
+  message.reply(`_User @${userId.split('@')[0]} has been banned from using the bot._`, {
+   mentions: [userId],
+  });
  }
 );
 
