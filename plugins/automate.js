@@ -7,13 +7,11 @@ handler(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.isGroup) return message.reply(group);
-  
+  if (!message.isGroup) return message.reply(group);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antilink on_\n_' + message.prefix + 'antilink kick_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
   if (!isUserAdmin) return message.reply("_I'm not an admin._");
-
   const cmd = match.trim().toLowerCase();
   if (!cmd) {
    const settings = await getAntiLink(message.jid);
@@ -60,8 +58,7 @@ handler(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.isGroup) return message.reply(group);
-  
+  if (!message.isGroup) return message.reply(group);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong usage, try ' + message.prefix + 'antiword on_');
 
@@ -124,7 +121,6 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.isGroup) return;
-
   const antiWords = await getAntiWords(message.jid);
   if (antiWords.length === 0) return;
   const messageText = message.text.toLowerCase();
@@ -158,8 +154,7 @@ handler(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.isGroup) return message.reply(group);
-  
+  if (!message.isGroup) return message.reply(group);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antispam on | off | kick | warn_');
   const isUserAdmin = await isAdmin(message.jid, message.user, client);
@@ -197,13 +192,10 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.isGroup) return;
-
   const settings = await getAntiSpam(message.jid);
   if (!settings || !settings.enabled) return;
-
   const isUserAdmin = await isAdmin(message.jid, message.participant, client);
   if (isUserAdmin) return;
-
   const isSpam = await checkSpam(message.jid, message.participant, message.text);
   if (isSpam) {
    await client.sendMessage(message.jid, { delete: message.key });
@@ -257,8 +249,7 @@ handler(
   type: 'group',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.isGroup) return message.reply(group);
-  
+  if (!message.isGroup) return message.reply(group);
   if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Wrong, Use ' + message.prefix + 'antibot on | off | warn | kick_');
 
@@ -292,7 +283,6 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.isGroup) return;
-
   const settings = await getAntiBot(message.jid);
   if (!settings || settings.mode === 'off') return;
   if (message.fromMe) return;

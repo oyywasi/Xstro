@@ -9,7 +9,7 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode || message.isban || !toString(match)) return message.reply('_provide word_');
+  if (!match) return message.reply('_provide a word_');
   const msg = await message.reply('🔍_Searching Meaning_');
   const res = await getJson(`https://api.dictionaryapi.dev/api/v2/entries/en/${match}`);
   const { word, phonetic, phonetics, meanings } = res[0];
@@ -33,7 +33,7 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode || message.isban || !match) return message.reply('_provide GitHub username_');
+  if (!match) return message.reply('_provide GitHub username_');
   const msg = await message.reply('🔍_Searching GitHub User_');
   const res = await getJson(`https://api.github.com/users/${match}`);
   const { login, bio, public_repos, followers, following } = res;
@@ -49,22 +49,16 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode || message.isban) return;
   if (!match) return await message.reply('Need a place name to know time. Example: .time japan');
-
   const location = match.toLowerCase();
   const data = await getJson(`https://ironman.koyeb.app/ironman/search/time?loc=${location}`);
-
   if (data.error === 'no place') return await message.send('No place found');
-
   const { name, state, tz, capital, currCode, currName, phone } = data;
   const now = new Date();
   const options = { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit' };
-
   const time12 = new Intl.DateTimeFormat('en-US', { ...options, hour12: true }).format(now);
   const time24 = new Intl.DateTimeFormat('en-US', { ...options, hour12: false }).format(now);
   const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
-
   const msg = `Current time:\n(12-hour): ${time12}:${milliseconds}\n(24-hour): ${time24}:${milliseconds}\nLocation: ${name}\n` + (state ? `State: ${state}\n` : '') + `Capital: ${capital}\nCurrency: ${currName} (${currCode})\nPhone code: +${phone}`;
 
   await message.reply(tiny(msg));
@@ -78,7 +72,6 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode || message.isban) return;
   if (!match) return await message.send('*Example : weather delhi*');
   const data = await getJson(`http://api.openweathermap.org/data/2.5/weather?q=${match}&units=metric&appid=060a6bcfa19809c2cd4d97a212b19273&language=en`).catch(() => {});
   if (!data) return await message.send(`_${match} not found_`);
@@ -95,7 +88,6 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide query_');
   const res = await getJson(`https://api.giftedtech.my.id/api/search/wallpaper?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
   if (!res || !res.results || res.results.length === 0) return message.reply('_no results found_');
@@ -121,7 +113,6 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide query_');
   const msg = await message.reply('_Searching for ' + match + '_');
   const res = await Google(match);
@@ -136,7 +127,6 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide query_');
   const msg = await message.reply('_Searching for ' + match + '_');
   const res = await getJson(`https://api.giftedtech.my.id/api/search/lyrics?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
@@ -153,7 +143,6 @@ handler(
   type: 'search',
  },
  async (message) => {
-  if (!message.mode) return;
   return await message.send(getRandomFact());
  }
 );
@@ -165,7 +154,6 @@ handler(
   type: 'search',
  },
  async (message) => {
-  if (!message.mode) return;
   return await message.send(getRandomQuote());
  }
 );
@@ -177,7 +165,6 @@ handler(
   type: 'search',
  },
  async (message) => {
-  if (!message.mode) return;
   const joke = await fetchJoke();
   return await message.send(joke);
  }
@@ -190,7 +177,6 @@ handler(
   type: 'search',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide a number without +_');
   const msg = await message.reply('_checking numbers_');
   const res = await onwhatsapp(match);

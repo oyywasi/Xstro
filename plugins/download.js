@@ -8,7 +8,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match || !match.includes('x.com')) return message.reply('_Not Vaild Twitter URl!_');
   await message.reply('_Downloading_');
   const res = await twitter(match);
@@ -23,7 +22,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match || !match.includes('drive.google.com')) return message.reply('_Not Vaild Google Drive Url!_');
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading file_');
@@ -39,7 +37,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match || !match.includes('tiktok.com')) return message.reply('_Provide Vaild Tiktok URl_');
   if (!isUrl(match)) return message.reply('_Invaild Url!_');
   await message.reply('_Downloading!_');
@@ -56,7 +53,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match || !match.includes('open.spotify.com')) return message.reply('_Not Vaild Spotify Url!_');
   if (!isUrl(match)) return message.reply('_Invaild Url_');
   const msg = await message.reply('_Downloading_');
@@ -73,7 +69,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
   const res = await getJson(`https://api.giftedtech.my.id/api/download/ytmp4?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);
@@ -88,7 +83,6 @@ handler(
   type: 'download',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!isUrl(match)) return message.reply('_Inavild Url!_');
   await message.reply('_Downloading!_');
   const res = await getJson(`https://api.giftedtech.my.id/api/download/mp3?apikey=astro_fx-k56DdhdS7@gifted_api&url=${match}`);

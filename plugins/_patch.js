@@ -7,7 +7,7 @@ handler(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.owner) return message.reply(owner);
+  if (!message.owner) return;
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('>')) return;
@@ -44,7 +44,7 @@ handler(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;if (!message.owner) return message.reply(owner);
+  if (!message.owner) return;
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('$')) return;

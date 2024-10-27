@@ -8,7 +8,6 @@ handler(
   dontAddCommandList: true,
  },
  async (message) => {
-  if (!message.mode) return;
   const { prefix, sender } = message;
   const currentTime = new Date().toLocaleTimeString('en-IN', {
    timeZone: process.env.TZ,
@@ -61,7 +60,6 @@ handler(
   dontAddCommandList: true,
  },
  async (message) => {
-  if (!message.mode) return;
   let commandListText = '*about commands*\n\n';
   const commandList = [];
   commands.forEach((command) => {

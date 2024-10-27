@@ -14,10 +14,8 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;if (message.isban) return await message.reply('you are banned');
   const msg = await message.reply('ᴄʜᴇᴄᴋɪɴɢ...');
   const updateInterval = 1000;
-
   for (let i = 0; i < 10; i++) {
    const start = performance.now();
    await new Promise((resolve) => setTimeout(resolve, 20));
@@ -36,7 +34,6 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;
   await message.reply('Restarting the bot...');
   const filePath = path.resolve(__dirname, '..', 'index.js');
   spawn(process.execPath, [filePath], {
@@ -54,7 +51,6 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;
   await message.reply('Shutting down the bot...');
   process.exit();
  }
@@ -67,16 +63,12 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;
   const cpus = os.cpus();
   const coreCount = cpus.length;
   const model = cpus[0].model;
   const averageSpeed = (cpus.reduce((acc, cpu) => acc + cpu.speed, 0) / coreCount).toFixed(2);
-
   const coreDetails = cpus.map((cpu, index) => `Core ${index + 1}: *${cpu.speed} MHz*`).join('\n');
-
   const output = `*CPU Information*\n\n` + `Total Cores: *${coreCount}*\n` + `Model: *${model}*\n` + `Average Speed: *${averageSpeed} MHz*\n\n` + `*Core Speeds:*\n${coreDetails}`;
-
   await message.reply(tiny(output));
  }
 );
@@ -88,7 +80,6 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;
   const interfaces = os.networkInterfaces();
   const interfaceDetails = Object.keys(interfaces)
    .map((iface) => {
@@ -108,7 +99,6 @@ handler(
   type: 'system',
  },
  async (message) => {
-  if (!message.mode) return;
   const uptime = await runtime(process.uptime());
   return await message.send(tiny(`Running Since ${uptime}`));
  }
@@ -121,7 +111,6 @@ handler(
   type: 'system',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   await git.fetch();
   const commits = await git.log(['master..origin/master']);
@@ -131,7 +120,7 @@ handler(
    exec('git stash && git pull origin master', async (err, stderr) => {
     if (err) return await message.reply('```' + stderr + '```');
     await message.reply('*Restarting...*');
-    exec('pm2 restart', (err, _, stderr) => {
+    exec(require('../package.json').scripts.start, (err, _, stderr) => {
      if (err) return message.reply('```' + stderr + '```');
      message.reply('*Restart complete*');
     });

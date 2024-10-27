@@ -9,7 +9,6 @@ handler(
   type: 'ai',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'enhance');
@@ -24,7 +23,6 @@ handler(
   type: 'ai',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'recolor');
@@ -39,7 +37,6 @@ handler(
   type: 'ai',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'dehaze');
@@ -55,7 +52,6 @@ handler(
   type: 'ai',
  },
  async (message, match) => {
-  if (!message.mode) return;
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'Gemini What is life_');
   const msg = await message.reply('_Thinking 🤔_');
@@ -72,7 +68,6 @@ handler(
   type: 'ai',
  },
  async (message, match) => {
-  if (!message.mode) return;
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'gpt4 Which Ai Model are you_');
   const msg = await message.reply('_Deep thought ✍️_');
@@ -88,7 +83,6 @@ handler(
   type: 'ai',
  },
  async (message, match) => {
-  if (!message.mode) return;
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'sd an image of ironman with batman_');
   const res = await getBuffer(`https://api.giftedtech.my.id/api/ai/sd?apikey=astro_fx-k56DdhdS7@gifted_api&prompt=${encodeURIComponent(match)}`);

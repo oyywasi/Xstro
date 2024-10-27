@@ -9,7 +9,6 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'elonmusk.png'));
   const { buffer } = buff;
@@ -24,7 +23,6 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'trump.png'));
   const { buffer } = buff;
@@ -39,7 +37,6 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'ronaldo.png'));
   const { buffer } = buff;
@@ -54,7 +51,6 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'messi.png'));
   const { buffer } = buff;
@@ -69,7 +65,6 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'obama.png'));
   const { buffer } = buff;
@@ -84,7 +79,7 @@ handler(
   type: 'meme',
  },
  async (message, match) => {
-  if (!message.mode) return;
+  if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_provide text_');
   const buff = await addTextToTweet(match, path.join(__dirname, '..', 'media', 'image', 'andrew.png'));
   const { buffer } = buff;

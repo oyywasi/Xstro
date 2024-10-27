@@ -10,7 +10,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const chatId = message.key.remoteJid;
   await savePausedChat(chatId);
@@ -25,7 +24,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const chatId = message.key.remoteJid;
   const pausedChat = await PausedChats.findOne({ where: { chatId } });
@@ -45,7 +43,6 @@ handler(
   type: 'user',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
@@ -71,7 +68,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
@@ -87,7 +83,6 @@ handler(
   type: 'user',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   let text, msg;
 
@@ -115,7 +110,6 @@ handler(
   type: 'user',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   if (!match) return await message.reply('\n*Example:* ```.stop hello```');
   const deleted = await deleteFilter(message.jid, match);
@@ -154,7 +148,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const sudoId = message.reply_message?.sender || message.mention?.[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them._');
@@ -173,7 +166,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const sudoList = await getAllSudos();
   if (sudoList.length === 0) return message.reply('_No sudo users found._');
@@ -190,7 +182,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const sudoId = message.reply_message?.sender || message?.mention[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them_');
@@ -211,7 +202,7 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;if (message.isban) return message.reply('_User is already banned._');
+  if (message.isban) return message.reply('_User is already banned._');
   if (!message.owner) return message.reply('_Only the owner can perform this action._');
   const userId = message.mention?.[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Please mention a user or reply to a message._');
@@ -228,11 +219,11 @@ handler(
 handler(
  {
   pattern: 'unban',
+  alias: 'delban',
   desc: 'Unbans a user',
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const userId = message.mention[0] || message.reply_message?.sender;
   if (!userId) return message.reply('_Mention or reply to someone_');
@@ -252,7 +243,6 @@ handler(
   type: 'user',
  },
  async (message) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const bannedUsers = await getBannedUsers();
   if (bannedUsers.length === 0) return message.reply('_No users are currently banned._');
@@ -269,7 +259,6 @@ handler(
   type: 'user',
  },
  async (message, match) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const userId = message.participant;
   const userMention = `@${userId.split('@')[0]}`;
@@ -299,7 +288,6 @@ handler(
   type: 'user',
  },
  async (message, match, m) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const args = message.body.split(' ').slice(1);
   const newMessage = args.join(' ');
@@ -335,7 +323,6 @@ handler(
   type: 'user',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const args = match.trim().split(/\s+/);
   const command = args[0]?.toLowerCase();
@@ -380,7 +367,6 @@ handler(
   type: 'user',
  },
  async (message, match, m) => {
-  if (!message.mode) return;
   if (!message.owner) return message.reply(owner);
   const args = message.text.split(' ').slice(1);
   const newMessage = args.join(' ');

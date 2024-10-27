@@ -9,7 +9,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await heartDesign(message);
 //  }
@@ -21,7 +21,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await weatherDesign(message);
 //  }
@@ -34,7 +34,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await gemDesign(message);
 //  }
@@ -47,7 +47,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await treeDesign(message);
 //  }
@@ -60,7 +60,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await musicDesign(message);
 //  }
@@ -73,7 +73,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await sportDesign(message);
 //  }
@@ -86,7 +86,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await toolDesign(message);
 //  }
@@ -99,7 +99,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await holidayDesign(message);
 //  }
@@ -112,7 +112,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await dessertDesign(message);
 //  }
@@ -125,7 +125,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await travelDesign(message);
 //  }
@@ -138,7 +138,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await spaceDesign(message);
 //  }
@@ -151,7 +151,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await fashionDesign(message);
 //  }
@@ -164,7 +164,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await beverageDesign(message);
 //  }
@@ -177,7 +177,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await instrumentDesign(message);
 //  }
@@ -190,7 +190,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await gameDesign(message);
 //  }
@@ -203,7 +203,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await emojiArtDesign(message);
 //  }
@@ -216,7 +216,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await partyDesign(message);
 //  }
@@ -229,7 +229,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await holidaySeasonDesign(message);
 //  }
@@ -242,7 +242,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await fitnessDesign(message);
 //  }
@@ -255,7 +255,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await technologyDesign(message);
 //  }
@@ -268,7 +268,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await animalEmojiDesign(message);
 //  }
@@ -281,7 +281,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await kissDesign(message);
 //  }
@@ -294,7 +294,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await hugDesign(message);
 //  }
@@ -307,7 +307,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await slapDesign(message);
 //  }
@@ -320,7 +320,7 @@
 //   type: 'designs',
 //  },
 //  async (message) => {
-//   if (!message.mode) return;
+//  ;
 //   
 //   await callConversation(message);
 //  }
