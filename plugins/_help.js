@@ -21,14 +21,14 @@ handler(
    timeZone: process.env.TZ,
   });
   let menuText = `\`\`\`╭─ xstro-md ───
-│ Prefix: ${prefix}
-│ User: ${sender}
-│ Plugins: ${commands.length}
-│ Runtime: ${runtime(process.uptime())}
-│ Time: ${currentTime}
-│ Day: ${currentDay}
-│ Date: ${currentDate}
-│ Version: ${require('../package.json').version}
+│ prefix: ${prefix}
+│ user: ${sender}
+│ plugins: ${commands.length}
+│ uptime: ${runtime(process.uptime())}
+│ time: ${currentTime}
+│ day: ${currentDay}
+│ date: ${currentDate}
+│ version: ${require('../package.json').version}
 ╰────────────────\`\`\`\n`;
 
   let commandCounter = 1;
@@ -44,14 +44,14 @@ handler(
    }, {});
 
   Object.keys(categorized).forEach((category) => {
-   menuText += tiny(`\n╭── *${category}* ────\n`);
+   menuText += `\n╭── *${category}* ────\n`;
    categorized[category].forEach((cmd) => {
-    menuText += tiny(`│ *_${commandCounter}. ${cmd}_*\n`);
+    menuText += `│ *_${commandCounter}. ${cmd}_*\n`;
     commandCounter++;
    });
-   menuText += tiny(`╰──────────────\n`);
+   menuText += `╰──────────────\n`;
   });
-  return await message.send(menuText);
+  return await message.send(`*_${tiny(menuText)}_*`);
  }
 );
 
