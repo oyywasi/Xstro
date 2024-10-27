@@ -10,7 +10,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const hasMedia = message.reply_message?.image || message.reply_message?.video;
   if (!hasMedia) return message.reply('_Reply an Image/Video_');
   const content = await message.download(message.quoted?.message);
@@ -30,7 +29,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const isStickerMedia = message.reply_message?.sticker;
   if (!isStickerMedia) return message.reply('_Reply A Sticker!_');
   const newSticker = await message.download(message.quoted?.message);
@@ -50,7 +48,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const res = message.reply_message?.video;
   if (!res) return message.reply('_Reply to a Sticker_');
   const contentBuffer = await message.download(message.quoted?.message);
@@ -66,7 +63,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.video) return message.reply('_Reply Video Only!_');
   const res = await message.download(message.quoted?.message);
   return message.send(res.buffer, { type: 'audio' });
@@ -82,7 +78,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   match = match || message.reply_message?.text;
   if (!match) return message.reply('_Provide text or reply text message!_');
   const res = await fancy(match);
@@ -98,7 +93,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image && !message.reply_message?.video) return message.reply('_reply with an image or video only!_');
   if (!['left', 'right', 'vertical', 'horizontal'].includes(match)) return message.reply('_invalid option!_\n' + message.prefix + 'rotate [`left`, `right`, `vertical`, `horizontal`]');
   const buff = await message.download(message.quoted.message);
@@ -115,7 +109,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message.audio) return message.reply('_reply an audio!_');
   const buff = await message.download(message.quoted.message);
   const process = await audioToBlackVideo(buff.buffer);

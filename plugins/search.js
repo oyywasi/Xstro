@@ -96,7 +96,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!match) return message.reply('_provide query_');
   const res = await getJson(`https://api.giftedtech.my.id/api/search/wallpaper?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
   if (!res || !res.results || res.results.length === 0) return message.reply('_no results found_');
@@ -123,7 +122,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!match) return message.reply('_provide query_');
   const msg = await message.reply('_Searching for ' + match + '_');
   const res = await Google(match);
@@ -139,7 +137,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!match) return message.reply('_provide query_');
   const msg = await message.reply('_Searching for ' + match + '_');
   const res = await getJson(`https://api.giftedtech.my.id/api/search/lyrics?apikey=astro_fx-k56DdhdS7@gifted_api&query=${match}`);
@@ -157,7 +154,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   return await message.send(getRandomFact());
  }
 );
@@ -170,7 +166,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   return await message.send(getRandomQuote());
  }
 );
@@ -183,7 +178,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const joke = await fetchJoke();
   return await message.send(joke);
  }
@@ -197,7 +191,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!match) return message.reply('_provide a number without +_');
   const msg = await message.reply('_checking numbers_');
   const res = await onwhatsapp(match);

@@ -10,7 +10,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'enhance');
@@ -26,7 +25,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'recolor');
@@ -42,7 +40,6 @@ handler(
  },
  async (message) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   const req = await message.download(message.quoted?.message);
   const res = await enhanceImage(req.buffer, 'dehaze');
@@ -59,7 +56,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'Gemini What is life_');
   const msg = await message.reply('_Thinking 🤔_');
@@ -77,7 +73,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'gpt4 Which Ai Model are you_');
   const msg = await message.reply('_Deep thought ✍️_');
@@ -94,7 +89,6 @@ handler(
  },
  async (message, match) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   const { sender, prefix } = message;
   if (!match) return message.reply('_Hi ' + sender + '_\n\n_' + prefix + 'sd an image of ironman with batman_');
   const res = await getBuffer(`https://api.giftedtech.my.id/api/ai/sd?apikey=astro_fx-k56DdhdS7@gifted_api&prompt=${encodeURIComponent(match)}`);

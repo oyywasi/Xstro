@@ -9,8 +9,7 @@ handler(
  },
  async (message) => {
   try {
-   if (!message.mode) return;
-   if (!message.owner) return message.reply(owner);
+   if (!message.mode) return; if (!message.owner) return message.reply(owner);
    if (!message.reply_message) return message.reply('_Reply A ViewOnce Message!_');
    const content = await message.download(message.quoted?.message);
    await message.send(content.buffer, { jid: message.participant });
@@ -28,8 +27,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   if (!message.reply_message?.image) return message.reply('_Reply An Image_');
   let imgpath = await message.download(message.reply_message.messageInfo);
   return await client.updateProfilePicture(message.user, { url: imgpath.filePath });
@@ -43,8 +41,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   if (!match) return message.reply('_Provide Name!_');
   const newName = match;
   await client.updateProfileName(newName);
@@ -59,8 +56,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   let jid;
   if (message.isGroup) {
    jid = message.mention && message.mention.length > 0 ? message.mention[0] : message.reply_message ? message.reply_message.jid : null;
@@ -82,8 +78,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   let jid;
   if (message.isGroup) {
    jid = message.mention && message.mention.length > 0 ? message.mention[0] : message.reply_message ? message.reply_message.jid : null;
@@ -106,7 +101,6 @@ handler(
  },
  async (message, match, m, client) => {
   if (!message.mode) return;
-  if (message.isban) return message.reply(ban);
   if (!message.owner) return message.reply(owner);
   const targetJid = message.reply_message?.jid || message.jid || message.mention[0];
   return await message.send(targetJid);
@@ -120,8 +114,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   if (!message.reply_message) return message.reply('_Reply Msg_');
   await client.sendMessage(message.jid, { delete: message.reply_message.key || m.quoted.key });
  }
@@ -134,8 +127,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   if (!message.reply_message) return await message.reply('_Please reply to a message._');
   const newText = match;
   return await client.sendMessage(message.jid, { text: newText, edit: m.quoted.key });
@@ -169,8 +161,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   await client.chatModify({ delete: true, lastMessages: [{ key: message.data.key, messageTimestamp: message.timestamp }] }, message.jid);
   await message.reply('_Cleared.._');
  }
@@ -250,8 +241,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   if (!m.quoted) return await message.reply('_Reply to a status message_');
   const quotedMessage = message?.quoted;
   await client.sendMessage(message.user, { forward: quotedMessage }, { quoted: message?.quoted });
@@ -265,8 +255,7 @@ handler(
   type: 'whatsapp',
  },
  async (message, match, m, client) => {
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   await message.reply('_logged Out_');
   return client.logout();
  }

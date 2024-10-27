@@ -7,13 +7,10 @@ handler(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (message.isban) return message.reply(ban);
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('>')) return;
-
   const evalCmd = content.slice(1).trim();
 
   try {
@@ -34,7 +31,6 @@ handler(
    } else {
     result = result?.toString();
    }
-
    await message.reply(result || 'No result');
   } catch (error) {
    await message.reply(`Error: ${error.message}`);
@@ -48,18 +44,13 @@ handler(
   dontAddCommandList: true,
  },
  async (message, match, m, client) => {
-  if (message.isban) return message.reply(ban);
-  if (!message.mode) return;
-  if (!message.owner) return message.reply(owner);
+  if (!message.mode) return;if (!message.owner) return message.reply(owner);
   const content = message.text;
   if (!content) return;
   if (!content.startsWith('$')) return;
-
   const evalCmd = content.slice(1).trim();
-
   try {
    let result = await eval(`(async () => { ${evalCmd} })()`);
-
    if (result === undefined) {
     if (evalCmd === 'message') result = message;
     if (evalCmd === 'client') result = client;
@@ -73,7 +64,6 @@ handler(
    } else {
     result = result?.toString();
    }
-
    await message.reply(result || 'No result');
   } catch (error) {
    await message.reply(`Error: ${error.message}`);
