@@ -165,8 +165,8 @@ handler(
   if (!message.owner) return message.reply(owner);
   const sudoId = message.reply_message?.sender || message.mention?.[0];
   if (!sudoId) return message.reply('_Reply to someone or mention them._');
-  if (message.isban?.includes(sudoId)) return message.reply('_You cannot set a banned user as sudo._');
-  if ([message.user].includes(sudoId)) return message.reply('_You cannot set yourself as sudo, you already own the bot._');
+  if (sudoId === message.user) return message.reply('_You cannot set yourself as sudo, you already own the bot._');
+  if (message.reply_message.isban) return message.reply('_you cannot sudo a banned user_');
   const cleanedId = cleanUserId(sudoId);
   await addSudo(cleanedId);
   message.reply(`_User @${cleanedId} has been added as sudo._`, { mentions: [sudoId] });
