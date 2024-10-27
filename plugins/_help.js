@@ -20,16 +20,16 @@ handler(
   const currentDate = new Date().toLocaleDateString('en-IN', {
    timeZone: process.env.TZ,
   });
-  let menuText = `╭─ xstro-md ───
-│ prefix: ${prefix}
-│ user: ${sender}
-│ plugins: ${commands.length}
-│ uptime: ${runtime(process.uptime())}
-│ time: ${currentTime}
-│ day: ${currentDay}
-│ date: ${currentDate}
-│ version: ${require('../package.json').version}
-╰────────────────\n`;
+  let menuText = `*╭─ xstro-md ───*
+*│ prefix: ${prefix}*
+*│ user: ${sender}*
+*│ plugins: ${commands.length}*
+*│ uptime: ${runtime(process.uptime())}*
+*│ time: ${currentTime}*
+*│ day: ${currentDay}*
+*│ date: ${currentDate}*
+*│ version: ${require('../package.json').version}*
+*╰────────────────*\n`;
 
   let commandCounter = 1;
   const categorized = commands
@@ -51,7 +51,7 @@ handler(
    });
    menuText += `╰──────────────\n`;
   });
-  return await message.send(`*_${tiny(menuText)}_*`);
+  return await message.send(`${tiny(menuText)}`);
  }
 );
 
