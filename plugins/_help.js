@@ -20,7 +20,7 @@ handler(
   const currentDate = new Date().toLocaleDateString('en-IN', {
    timeZone: process.env.TZ,
   });
-  let menuText = `\`\`\`╭─ xstro-md ───
+  let menuText = `╭─ xstro-md ───
 │ prefix: ${prefix}
 │ user: ${sender}
 │ plugins: ${commands.length}
@@ -29,7 +29,7 @@ handler(
 │ day: ${currentDay}
 │ date: ${currentDate}
 │ version: ${require('../package.json').version}
-╰────────────────\`\`\`\n`;
+╰────────────────\n`;
 
   let commandCounter = 1;
   const categorized = commands
