@@ -1,4 +1,4 @@
-const { twitter } = require('xstro');
+const { twitter, isUrl } = require('xstro');
 const { handler, getJson } = require('../lib');
 
 const BASE_URL = 'https://api.giftedtech.my.id/api/download';
@@ -6,7 +6,7 @@ const API_KEY = 'astro_fx-k56DdhdS7@gifted_api';
 
 const getMedia = async (message, match, endpoint, downloadMsg = '_Downloading!_', customValidator) => {
  const targetUrl = match || message.reply_message?.text;
- if (customValidator && !customValidator(targetUrl)) return message.reply('_Invalid URL!_');
+ if (customValidator && !isUrl(targetUrl)) return message.reply('_Invalid URL!_');
  await message.reply(downloadMsg);
  const res = await getJson(`${BASE_URL}/${endpoint}?apikey=${API_KEY}&url=${encodeURIComponent(targetUrl)}`);
  return res;
