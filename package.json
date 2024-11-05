@@ -28,7 +28,7 @@
   "pm2": "^5.3.0",
   "sequelize": "^6.23.0",
   "simple-git": "^3.24.0",
-  "sqlite3": "^5.1.7",
-  "xstro": "git+https://github.com/AstroX10/xstro-api.git"
+  "sqlite3": "^5.1.7"
+ 
  }
 }
